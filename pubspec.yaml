@@ -38,9 +38,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   google_fonts: ^4.0.3
   lucide_icons: ^0.125.0
-  floating_tabbar: ^0.0.6
   go_router: ^6.2.0
-  flutter_floating_bottom_bar: ^1.1.0
 
 dev_dependencies:
   flutter_test:

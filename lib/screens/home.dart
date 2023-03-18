@@ -1,8 +1,7 @@
-import 'package:floating_tabbar/Models/tab_item.dart';
-import 'package:floating_tabbar/floating_tabbar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ramadan_taskminder/constants.dart';
+import 'package:ramadan_taskminder/widgets/page_footer.dart';
 import 'package:ramadan_taskminder/widgets/page_header.dart';
 import 'package:ramadan_taskminder/widgets/section_header.dart';
 import 'package:ramadan_taskminder/widgets/stacked_card.dart';
@@ -210,6 +209,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     const SizedBox(
                       height: 25,
                     ),
+                    const PageFooter()
                   ],
                 ),
               ),
