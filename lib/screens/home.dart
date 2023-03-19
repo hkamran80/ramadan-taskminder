@@ -34,13 +34,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   [
                     PageHeader(
                       header: appName,
-                      title: "2 Ramadan 1444",
+                      title: "1 Ramadan 1444",
                       rightAlign: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            "22",
+                            "23",
                             style: GoogleFonts.mPlus1p(
                               fontWeight: FontWeight.w500,
                               fontSize: 32,
@@ -74,11 +74,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: const [
                             StackedCard(
-                              header: "SUHOOR",
+                              header: "Suhoor",
                               title: "5:55 AM",
                             ),
                             StackedCard(
-                              header: "IFTAR",
+                              header: "Iftar",
                               title: "7:25 PM",
                             ),
                           ],
@@ -96,7 +96,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           title: "Tasks",
                           subtitle: "2/8 completed",
                           buttonText: "View All",
-                          // TODO: Fix onClick
                           onClick: (() => GoRouter.of(context).go("/tasks")),
                         ),
                         const SizedBox(height: 15),
@@ -120,10 +119,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SectionHeader(
+                        SectionHeader(
                           title: "Qur'an",
                           subtitle: "Nothing read today",
                           buttonText: "Track",
+                          onClick: (() => GoRouter.of(context).go("/quran")),
                         ),
                         const SizedBox(height: 15),
                         Wrap(

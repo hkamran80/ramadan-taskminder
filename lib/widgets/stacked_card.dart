@@ -6,26 +6,31 @@ class StackedCard extends StatelessWidget {
     Key? key,
     required this.header,
     required this.title,
+    this.fullWidth,
   }) : super(key: key);
 
   final String header;
   final String title;
+  final bool? fullWidth;
 
   @override
   Widget build(BuildContext context) {
+    final width = (MediaQuery.of(context).size.width - 50);
+
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         color: primaryColor,
       ),
+      width: fullWidth != null && fullWidth! ? width + 10 : width / 2,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(15, 12, 75, 12),
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              header,
+              header.toUpperCase(),
               style: const TextStyle(
                 fontSize: 12,
               ),

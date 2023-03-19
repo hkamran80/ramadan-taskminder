@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:ramadan_taskminder/constants.dart';
 import 'package:ramadan_taskminder/widgets/page_footer.dart';
 import 'package:ramadan_taskminder/widgets/page_header.dart';
@@ -59,7 +58,7 @@ class _TasksScreenState extends State<TasksScreen> {
                         const SectionHeader(
                           title: "Incomplete",
                         ),
-                        SizedBox(height: incomplete.isNotEmpty ? 15 : 5),
+                        SizedBox(height: incomplete.isNotEmpty ? 10 : 5),
                         incomplete.isNotEmpty
                             ? Wrap(
                                 runSpacing: 10,
@@ -90,7 +89,7 @@ class _TasksScreenState extends State<TasksScreen> {
                         const SectionHeader(
                           title: "Complete",
                         ),
-                        SizedBox(height: complete.isNotEmpty ? 15 : 5),
+                        SizedBox(height: complete.isNotEmpty ? 10 : 5),
                         complete.isNotEmpty
                             ? Wrap(
                                 runSpacing: 10,
