@@ -29,6 +29,8 @@ class _QuranScreenState extends State<QuranScreen> {
   int endingSurah = -1;
   int endingAyah = 0;
 
+  bool showHelp = false;
+
   @override
   void initState() {
     super.initState();
@@ -42,6 +44,10 @@ class _QuranScreenState extends State<QuranScreen> {
       quran.put("history", []);
     } else {
       history = quranHistory;
+      history.sort(
+        (a, b) => DateTime.parse(a[0].toString())
+            .compareTo(DateTime.parse(b[0].toString())),
+      );
     }
   }
 
@@ -52,11 +58,15 @@ class _QuranScreenState extends State<QuranScreen> {
           .map(int.parse)
           .toList();
 
+      int currentSurahAyahs =
+          int.parse(surahs[lastEntry[0] - 1]["ayahs"].toString());
+
       startingSurah = surahs.length == lastEntry[0] ? 1 : lastEntry[0];
-      startingAyah = int.parse(surahs[lastEntry[0] - 1]["ayahs"].toString()) >=
-              lastEntry[1]
-          ? 1
-          : lastEntry[1] + 1;
+      if (lastEntry[1] < currentSurahAyahs) {
+        startingSurah = lastEntry[0] - 1;
+      }
+
+      startingAyah = lastEntry[1] < currentSurahAyahs ? lastEntry[1] + 1 : 1;
     }
   }
 
@@ -112,13 +122,14 @@ class _QuranScreenState extends State<QuranScreen> {
                         SectionHeader(
                           title: "Log Reading",
                           buttonText: "Help",
-                          onClick: () {},
+                          onClick: (() => setState(() => showHelp = !showHelp)),
                         ),
-                        // TODO: Add toggle
-                        const Text(
-                          "Enter the starting surah/ayah, then the ending surah/ayah. The ending input will be visible after the starting input is set, and the log button will be visible after the ending input is set.",
-                          style: TextStyle(fontSize: 12),
-                        ),
+                        showHelp
+                            ? const Text(
+                                "Enter the starting surah/ayah, then the ending surah/ayah. The ending input will be visible after the starting input is set, and the log button will be visible after the ending input is set.",
+                                style: TextStyle(fontSize: 12),
+                              )
+                            : const SizedBox(),
                         const SizedBox(height: 10),
                         Wrap(
                           runSpacing: 10,
@@ -243,10 +254,7 @@ class _QuranScreenState extends State<QuranScreen> {
                             : const Text("Log some reading first!"),
                       ],
                     ),
-                    const SizedBox(
-                      height: 25,
-                    ),
-                    const PageFooter()
+                    const PageFooter(),
                   ],
                 ),
               ),
