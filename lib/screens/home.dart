@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ramadan_taskminder/constants.dart';
 import 'package:ramadan_taskminder/widgets/page_footer.dart';
@@ -91,10 +92,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SectionHeader(
+                        SectionHeader(
                           title: "Tasks",
                           subtitle: "2/8 completed",
                           buttonText: "View All",
+                          // TODO: Fix onClick
+                          onClick: (() => GoRouter.of(context).go("/tasks")),
                         ),
                         const SizedBox(height: 15),
                         Wrap(
