@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ramadan_taskminder/constants.dart';
+import 'package:ramadan_taskminder/theme.dart';
 
 class Statistic extends StatelessWidget {
   const Statistic({
@@ -14,7 +14,7 @@ class Statistic extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: primaryColor,
+        color: getPrimaryColor(context),
       ),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(15, 7, 15, 7),

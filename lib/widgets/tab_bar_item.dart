@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ramadan_taskminder/constants.dart';
+import 'package:ramadan_taskminder/theme.dart';
 
 class TabBarItem extends StatelessWidget {
   const TabBarItem({
@@ -19,7 +19,7 @@ class TabBarItem extends StatelessWidget {
     return IconButton(
       onPressed: () => GoRouter.of(context).go(location),
       icon: Icon(icon),
-      color: active ? activeTabColor : inactiveTabColor,
+      color: active ? getActiveTabColor(context) : getInactiveTabColor(context),
     );
   }
 }

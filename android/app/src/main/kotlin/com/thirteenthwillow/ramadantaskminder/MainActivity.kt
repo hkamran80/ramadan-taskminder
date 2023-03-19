@@ -1,4 +1,4 @@
-package com.example.muslim_taskminder
+package com.thirteenthwillow.ramadantaskminder
 
 import io.flutter.embedding.android.FlutterActivity
 

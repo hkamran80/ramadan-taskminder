@@ -5,12 +5,15 @@ import 'package:hijri/hijri_calendar.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:ramadan_taskminder/constants.dart';
+import 'package:ramadan_taskminder/theme.dart';
 import 'package:ramadan_taskminder/tasks.dart';
 import 'package:ramadan_taskminder/widgets/page_footer.dart';
 import 'package:ramadan_taskminder/widgets/page_header.dart';
 import 'package:ramadan_taskminder/widgets/section_header.dart';
 import 'package:ramadan_taskminder/widgets/stacked_card.dart';
 import 'package:ramadan_taskminder/widgets/statistic_card.dart';
+import 'package:ramadan_taskminder/widgets/wide_card.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -48,13 +51,19 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  Future<void> _launchUrl() async {
+    if (!await launchUrl(feedbackUrl)) {
+      throw Exception('Could not launch $feedbackUrl');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Iterable incompleteTasks =
         tasks.toMap().entries.where((task) => task.value == false);
 
     return Material(
-      color: backgroundColor,
+      color: getBackgroundColor(context),
       child: Stack(
         children: [
           CustomScrollView(
@@ -146,6 +155,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                   GoRouter.of(context).go("/quran")),
                             ),
                           ],
+                        ),
+                        const SizedBox(
+                          height: 50,
+                        ),
+                        WideCard(
+                          content: "Submit feedback",
+                          onTap: () => _launchUrl(),
                         ),
                         const SizedBox(
                           height: 25,

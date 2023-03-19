@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ramadan_taskminder/constants.dart';
+import 'package:ramadan_taskminder/theme.dart';
 
 class StackedCard extends StatelessWidget {
   const StackedCard({
@@ -20,7 +20,7 @@ class StackedCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
-        color: primaryColor,
+        color: getPrimaryColor(context),
       ),
       width: fullWidth != null && fullWidth! ? width + 10 : width / 2,
       child: Padding(

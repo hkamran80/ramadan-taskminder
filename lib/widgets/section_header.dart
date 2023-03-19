@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ramadan_taskminder/constants.dart';
+import 'package:ramadan_taskminder/theme.dart';
 
 class SectionHeader extends StatelessWidget {
   const SectionHeader({
@@ -54,8 +54,8 @@ class SectionHeader extends StatelessWidget {
             onPressed: onClick!,
             child: Text(
               buttonText!.toUpperCase(),
-              style: const TextStyle(
-                color: buttonTextColor,
+              style: TextStyle(
+                color: getButtonTextColor(context),
               ),
             ),
           )
