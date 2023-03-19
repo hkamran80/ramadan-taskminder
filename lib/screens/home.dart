@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ramadan_taskminder/constants.dart';
+import 'package:ramadan_taskminder/tasks.dart';
 import 'package:ramadan_taskminder/widgets/page_footer.dart';
 import 'package:ramadan_taskminder/widgets/page_header.dart';
 import 'package:ramadan_taskminder/widgets/section_header.dart';
@@ -16,8 +18,28 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  Box tasks =
+      Hive.box("tasks_${DateTime.now().toIso8601String().split("T")[0]}");
+
+  @override
+  void initState() {
+    super.initState();
+    initializeTasks();
+  }
+
+  void initializeTasks() {
+    for (var task in allTasks) {
+      if (tasks.get(task) == null) {
+        tasks.put(task, false);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    Iterable incompleteTasks =
+        tasks.toMap().entries.where((task) => task.value == false);
+
     return Material(
       color: backgroundColor,
       child: CustomScrollView(
@@ -94,22 +116,28 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         SectionHeader(
                           title: "Tasks",
-                          subtitle: "2/8 completed",
+                          subtitle:
+                              "${tasks.length - incompleteTasks.length}/${tasks.length} completed",
                           buttonText: "View All",
                           onClick: (() => GoRouter.of(context).go("/tasks")),
                         ),
                         const SizedBox(height: 15),
-                        Wrap(
-                          spacing: 10,
-                          runSpacing: 10,
-                          children: const [
-                            Statistic(statistic: "Istighfar (70+)"),
-                            Statistic(statistic: "Shukr"),
-                            Statistic(statistic: "Give Charity"),
-                            Statistic(statistic: "Recite Qur'an"),
-                            Statistic(statistic: "..."),
-                          ],
-                        )
+                        incompleteTasks.isNotEmpty
+                            ? Wrap(
+                                spacing: 10,
+                                runSpacing: 10,
+                                children: incompleteTasks
+                                    .take(4)
+                                    .map(
+                                      (task) => Statistic(
+                                        statistic: task.key,
+                                      ),
+                                    )
+                                    .toList(),
+                              )
+                            : const Text(
+                                "You've completed all tasks! Congratulations!",
+                              ),
                       ],
                     ),
                     const SizedBox(

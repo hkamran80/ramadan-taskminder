@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ramadan_taskminder/constants.dart';
+import 'package:ramadan_taskminder/tasks.dart';
 import 'package:ramadan_taskminder/widgets/page_footer.dart';
 import 'package:ramadan_taskminder/widgets/page_header.dart';
 import 'package:ramadan_taskminder/widgets/section_header.dart';
@@ -13,18 +15,30 @@ class TasksScreen extends StatefulWidget {
 }
 
 class _TasksScreenState extends State<TasksScreen> {
-  final List<String> incomplete = [
-    "Istighfar (70+)",
-    "Shukr (Alhamduillah)",
-    "Give Charity",
-    "Recite Qur'an",
-    "Evening Adhkar",
-    "Adhkar Before Sleep",
-  ];
-  final List<String> complete = [
-    "Morning Adhkar",
-    "Random Kindess",
-  ];
+  List<String> complete = [];
+  List<String> incomplete = [];
+
+  Box tasks =
+      Hive.box("tasks_${DateTime.now().toIso8601String().split("T")[0]}");
+
+  @override
+  void initState() {
+    super.initState();
+
+    initializeTasks();
+  }
+
+  void initializeTasks() {
+    for (var task in allTasks) {
+      bool? taskStatus = tasks.get(task);
+      if (taskStatus == null || taskStatus == false) {
+        tasks.put(task, false);
+        incomplete.add(task);
+      } else if (taskStatus == true) {
+        complete.add(task);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,8 +58,7 @@ class _TasksScreenState extends State<TasksScreen> {
                   [
                     PageHeader(
                       header: "Tasks",
-                      title:
-                          "${complete.length}/${complete.length + incomplete.length} completed",
+                      title: "${complete.length}/${allTasks.length} completed",
                       hintText: "Tap an item to mark it as complete/incomplete",
                     ),
                     const SizedBox(
@@ -69,6 +82,7 @@ class _TasksScreenState extends State<TasksScreen> {
                                         onTap: () => setState(() {
                                           incomplete.remove(task);
                                           complete.add(task);
+                                          tasks.put(task, true);
                                         }),
                                       ),
                                     )
@@ -100,6 +114,7 @@ class _TasksScreenState extends State<TasksScreen> {
                                         onTap: () => setState(() {
                                           complete.remove(task);
                                           incomplete.add(task);
+                                          tasks.put(task, false);
                                         }),
                                       ),
                                     )

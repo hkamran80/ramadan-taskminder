@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ramadan_taskminder/constants.dart';
 import 'package:ramadan_taskminder/screens/home.dart';
 import 'package:ramadan_taskminder/screens/quran.dart';
 import 'package:ramadan_taskminder/screens/tasks.dart';
 
-void main() {
+Future<void> main() async {
+  await Hive.initFlutter();
+  await Hive.openBox("tasks_${DateTime.now().toIso8601String().split("T")[0]}");
+  await Hive.openBox("quran");
   runApp(const RamadanTaskminder());
 }
 
@@ -37,7 +41,6 @@ class RamadanTaskminder extends StatelessWidget {
     return MaterialApp.router(
       title: appName,
       theme: ThemeData(
-        // primarySwatch: Colors.blue,
         primaryColor: primaryColor,
         scaffoldBackgroundColor: backgroundColor,
         useMaterial3: true,
