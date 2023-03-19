@@ -27,9 +27,9 @@ class _QuranAdditionRowState extends State<QuranAdditionRow> {
 
   @override
   Widget build(BuildContext context) {
-    final ayahsCount = widget.surahIndex != -1
+    final ayahsCount = int.tryParse(widget.surahIndex != -1
         ? surahs[widget.surahIndex]["ayahs"].toString()
-        : "0";
+        : "0");
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -64,7 +64,7 @@ class _QuranAdditionRowState extends State<QuranAdditionRow> {
           ),
         ),
         InkWell(
-          onTap: widget.surahIndex == -1
+          onTap: widget.surahIndex == -1 && ayahsCount == null
               ? null
               : () => showModalBottomSheet(
                     context: context,
@@ -81,40 +81,28 @@ class _QuranAdditionRowState extends State<QuranAdditionRow> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Enter the ayah (1-$ayahsCount)",
+                              "Enter the ayah (1-$ayahsCount). Due to a bug with the system, you may have to double-tap the text field before it will let you type.",
                               textAlign: TextAlign.left,
                             ),
                             const SizedBox(height: 10),
                             TextField(
                               onChanged: (value) {
-                                try {
-                                  widget.setAyah(
-                                    int.parse(value),
-                                  );
-                                } on FormatException {}
+                                int? ayah = int.tryParse(value);
+                                if (ayah != null &&
+                                    ayah > 0 &&
+                                    ayah <= ayahsCount!) {
+                                  widget.setAyah(ayah);
+                                }
                               },
-                              onEditingComplete: () {
-                                Navigator.pop(context);
-                              },
+                              onEditingComplete: () => Navigator.pop(context),
                               controller: TextEditingController(),
                               keyboardType: TextInputType.number,
-                              autofocus: true,
                               decoration: InputDecoration(
                                 labelText: "Ayah",
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15),
                                 ),
                               ),
-                              inputFormatters: [
-                                NumericsOnly(),
-                                FilteringTextInputFormatter.allow(
-                                  RegExp("[0-9]"),
-                                ),
-                                NumericalRangeFormatter(
-                                  min: 1,
-                                  max: double.parse(ayahsCount),
-                                ),
-                              ],
                             ),
                             const SizedBox(
                               height: 25,
