@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hijri/hijri_calendar.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:ramadan_taskminder/constants.dart';
 import 'package:ramadan_taskminder/quran.dart';
@@ -18,23 +19,33 @@ class QuranScreen extends StatefulWidget {
 }
 
 class _QuranScreenState extends State<QuranScreen> {
-  final history = [
-    [
-      "2023-3-23",
-      ["1-1", "2-166"]
-    ],
-  ];
+  List history = [];
 
-  int startingSurah = 0;
+  Box quran = Hive.box("quran");
+
+  int startingSurah = -1;
   int startingAyah = 0;
 
-  int endingSurah = 0;
+  int endingSurah = -1;
   int endingAyah = 0;
 
   @override
   void initState() {
     super.initState();
+    initializeHistory();
+    setStartingEntry();
+  }
 
+  void initializeHistory() {
+    List? quranHistory = quran.get("history");
+    if (quranHistory == null) {
+      quran.put("history", []);
+    } else {
+      history = quranHistory;
+    }
+  }
+
+  void setStartingEntry() {
     if (history.isNotEmpty) {
       final lastEntry = (history.last[1] as List<String>)[1]
           .split("-")
@@ -126,7 +137,7 @@ class _QuranScreenState extends State<QuranScreen> {
                                 });
                               },
                             ),
-                            startingSurah != 0 && startingAyah != 0
+                            startingSurah != -1 && startingAyah != 0
                                 ? QuranAdditionRow(
                                     surahIndex: endingSurah,
                                     ayah: endingAyah,
@@ -142,27 +153,28 @@ class _QuranScreenState extends State<QuranScreen> {
                                     },
                                   )
                                 : const SizedBox(),
-                            startingSurah != 0 &&
+                            startingSurah != -1 &&
                                     startingAyah != 0 &&
-                                    endingSurah != 0 &&
+                                    endingSurah != -1 &&
                                     endingAyah != 0
                                 ? WideCard(
                                     content: "Log",
                                     textAlign: TextAlign.center,
                                     onTap: () => setState(
                                       () {
-                                        history.add(
+                                        final entry = [
+                                          DateTime.now()
+                                              .toIso8601String()
+                                              .split("T")[0],
                                           [
-                                            DateTime.now()
-                                                .toIso8601String()
-                                                .split("T")[0],
-                                            [
-                                              "${startingSurah + 1}-$startingAyah",
-                                              "${endingSurah + 1}-$endingAyah"
-                                            ]
-                                          ],
-                                        );
-                                        
+                                            "${startingSurah + 1}-$startingAyah",
+                                            "${endingSurah + 1}-$endingAyah"
+                                          ]
+                                        ];
+
+                                        history.add(entry);
+                                        quran.put("history", history);
+
                                         endingSurah = 0;
                                         endingAyah = 0;
 
@@ -201,29 +213,34 @@ class _QuranScreenState extends State<QuranScreen> {
                         const SectionHeader(
                           title: "History",
                         ),
-                        const SizedBox(height: 10),
-                        Wrap(
-                          runSpacing: 10,
-                          children: history.reversed.map(
-                            (entry) {
-                              final date = DateTime.parse(entry[0].toString());
-                              final hijriDate = HijriCalendar.fromDate(date);
+                        SizedBox(height: history.isNotEmpty ? 10 : 5),
+                        history.isNotEmpty
+                            ? Wrap(
+                                runSpacing: 10,
+                                children: history.reversed.map(
+                                  (entry) {
+                                    final date =
+                                        DateTime.parse(entry[0].toString());
+                                    final hijriDate =
+                                        HijriCalendar.fromDate(date);
 
-                              final starting =
-                                  (entry[1] as List<String>)[0].split("-");
-                              final ending =
-                                  (entry[1] as List<String>)[1].split("-");
+                                    final starting =
+                                        (entry[1] as List<String>)[0]
+                                            .split("-");
+                                    final ending = (entry[1] as List<String>)[1]
+                                        .split("-");
 
-                              return StackedCard(
-                                header:
-                                    "${DateFormat.MMMMd().format(date)} / ${hijriDate.longMonthName} ${hijriDate.hDay}",
-                                title:
-                                    "${surahs[int.parse(starting[0]) - 1]["name"].toString()} ${starting[1]} - ${surahs[int.parse(ending[0]) - 1]["name"].toString()} ${ending[1]}",
-                                fullWidth: true,
-                              );
-                            },
-                          ).toList(),
-                        )
+                                    return StackedCard(
+                                      header:
+                                          "${DateFormat.MMMMd().format(date)} / ${hijriDate.longMonthName} ${hijriDate.hDay}",
+                                      title:
+                                          "${surahs[int.parse(starting[0]) - 1]["name"].toString()} ${starting[1]} - ${surahs[int.parse(ending[0]) - 1]["name"].toString()} ${ending[1]}",
+                                      fullWidth: true,
+                                    );
+                                  },
+                                ).toList(),
+                              )
+                            : const Text("Log some reading first!"),
                       ],
                     ),
                     const SizedBox(

@@ -27,7 +27,9 @@ class _QuranAdditionRowState extends State<QuranAdditionRow> {
 
   @override
   Widget build(BuildContext context) {
-    final ayahsCount = surahs[widget.surahIndex]["ayahs"].toString();
+    final ayahsCount = widget.surahIndex != -1
+        ? surahs[widget.surahIndex]["ayahs"].toString()
+        : "0";
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -43,7 +45,7 @@ class _QuranAdditionRowState extends State<QuranAdditionRow> {
                   return ListTile(
                     title: Text(surahNames[index]),
                     selected:
-                        widget.surahIndex != 0 && widget.surahIndex == index,
+                        widget.surahIndex != -1 && widget.surahIndex == index,
                     selectedColor: Colors.green,
                     onTap: () {
                       widget.setSurah(index);
@@ -56,13 +58,13 @@ class _QuranAdditionRowState extends State<QuranAdditionRow> {
           ),
           child: StackedCard(
             header: "Surah",
-            title: widget.surahIndex == 0
+            title: widget.surahIndex == -1
                 ? "Not Set"
                 : surahs[widget.surahIndex]["name"].toString(),
           ),
         ),
         InkWell(
-          onTap: widget.surahIndex == 0
+          onTap: widget.surahIndex == -1
               ? null
               : () => showModalBottomSheet(
                     context: context,
@@ -84,9 +86,13 @@ class _QuranAdditionRowState extends State<QuranAdditionRow> {
                             ),
                             const SizedBox(height: 10),
                             TextField(
-                              onChanged: (value) => widget.setAyah(
-                                int.parse(value),
-                              ),
+                              onChanged: (value) {
+                                try {
+                                  widget.setAyah(
+                                    int.parse(value),
+                                  );
+                                } on FormatException {}
+                              },
                               onEditingComplete: () {
                                 Navigator.pop(context);
                               },
