@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ramadan_taskminder/constants.dart';
 import 'package:ramadan_taskminder/screens/home.dart';
+import 'package:ramadan_taskminder/screens/tasks.dart';
 
 void main() {
   runApp(const RamadanTaskminder());
@@ -14,6 +15,10 @@ final _router = GoRouter(
     GoRoute(
       path: '/',
       builder: (context, state) => const HomeScreen(),
+    ),
+    GoRoute(
+      path: '/tasks',
+      builder: (context, state) => const TasksScreen(),
     ),
   ],
 );
