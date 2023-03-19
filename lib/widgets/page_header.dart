@@ -7,15 +7,17 @@ class PageHeader extends StatelessWidget {
     required this.header,
     required this.title,
     this.rightAlign,
+    this.hintText,
   }) : super(key: key);
 
   final String header;
   final String title;
   final Widget? rightAlign;
+  final String? hintText;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    final mainWidget = Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -41,5 +43,18 @@ class PageHeader extends StatelessWidget {
         if (rightAlign != null) rightAlign as Widget,
       ],
     );
+
+    if (hintText != null) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          mainWidget,
+          Text(hintText!),
+        ],
+      );
+    } else {
+      return mainWidget;
+    }
   }
 }
