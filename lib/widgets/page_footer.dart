@@ -15,24 +15,27 @@ class PageFooter extends StatelessWidget {
       ["/", LucideIcons.home],
       ["/tasks", LucideIcons.clipboardList],
       ["/quran", LucideIcons.bookOpen],
-      ["/prayers", LucideIcons.construction],
-      ["/settings", LucideIcons.cog],
     ];
 
-    return Padding(
-      padding: const EdgeInsets.all(25),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: tabBar
-            .map(
-              (List item) => TabBarItem(
-                location: item[0],
-                icon: item[1],
-                active: currentLocation == item[0],
-              ),
-            )
-            .toList(),
+    return Center(
+      child: Align(
+        alignment: Alignment.bottomCenter,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 50),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: tabBar
+                .map(
+                  (List item) => TabBarItem(
+                    location: item[0],
+                    icon: item[1],
+                    active: currentLocation == item[0],
+                  ),
+                )
+                .toList(),
+          ),
+        ),
       ),
     );
   }

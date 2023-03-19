@@ -44,93 +44,102 @@ class _TasksScreenState extends State<TasksScreen> {
   Widget build(BuildContext context) {
     return Material(
       color: backgroundColor,
-      child: CustomScrollView(
-        slivers: [
-          SliverSafeArea(
-            sliver: SliverPadding(
-              padding: const EdgeInsets.only(
-                top: 25.0,
-                left: 20.0,
-                right: 20.0,
-              ),
-              sliver: SliverList(
-                delegate: SliverChildListDelegate(
-                  [
-                    PageHeader(
-                      header: "Tasks",
-                      title: "${complete.length}/${allTasks.length} completed",
-                      hintText: "Tap an item to mark it as complete/incomplete",
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SectionHeader(
-                          title: "Incomplete",
+      child: Stack(
+        children: [
+          CustomScrollView(
+            slivers: [
+              SliverSafeArea(
+                sliver: SliverPadding(
+                  padding: const EdgeInsets.only(
+                    top: 25.0,
+                    left: 20.0,
+                    right: 20.0,
+                  ),
+                  sliver: SliverList(
+                    delegate: SliverChildListDelegate(
+                      [
+                        PageHeader(
+                          header: "Tasks",
+                          title:
+                              "${complete.length}/${allTasks.length} completed",
+                          hintText:
+                              "Tap an item to mark it as complete/incomplete",
                         ),
-                        SizedBox(height: incomplete.isNotEmpty ? 10 : 5),
-                        incomplete.isNotEmpty
-                            ? Wrap(
-                                runSpacing: 10,
-                                children: incomplete
-                                    .map(
-                                      (task) => WideCard(
-                                        content: task,
-                                        onTap: () => setState(() {
-                                          incomplete.remove(task);
-                                          complete.add(task);
-                                          tasks.put(task, true);
-                                        }),
-                                      ),
-                                    )
-                                    .toList(),
-                              )
-                            : const Text(
-                                "You've completed all tasks! Congratulations!",
-                              )
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SectionHeader(
+                              title: "Incomplete",
+                            ),
+                            SizedBox(height: incomplete.isNotEmpty ? 10 : 5),
+                            incomplete.isNotEmpty
+                                ? Wrap(
+                                    runSpacing: 10,
+                                    children: incomplete
+                                        .map(
+                                          (task) => WideCard(
+                                            content: task,
+                                            onTap: () => setState(() {
+                                              incomplete.remove(task);
+                                              complete.add(task);
+                                              tasks.put(task, true);
+                                            }),
+                                          ),
+                                        )
+                                        .toList(),
+                                  )
+                                : const Text(
+                                    "You've completed all tasks! Congratulations!",
+                                  )
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 25,
+                        ),
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SectionHeader(
+                              title: "Complete",
+                            ),
+                            SizedBox(height: complete.isNotEmpty ? 10 : 5),
+                            complete.isNotEmpty
+                                ? Wrap(
+                                    runSpacing: 10,
+                                    children: complete
+                                        .map(
+                                          (task) => WideCard(
+                                            content: task,
+                                            onTap: () => setState(() {
+                                              complete.remove(task);
+                                              incomplete.add(task);
+                                              tasks.put(task, false);
+                                            }),
+                                          ),
+                                        )
+                                        .toList(),
+                                  )
+                                : const Text(
+                                    "No completed tasks yet. Complete tasks by tapping the card.",
+                                  )
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 25,
+                        ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 25,
-                    ),
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SectionHeader(
-                          title: "Complete",
-                        ),
-                        SizedBox(height: complete.isNotEmpty ? 10 : 5),
-                        complete.isNotEmpty
-                            ? Wrap(
-                                runSpacing: 10,
-                                children: complete
-                                    .map(
-                                      (task) => WideCard(
-                                        content: task,
-                                        onTap: () => setState(() {
-                                          complete.remove(task);
-                                          incomplete.add(task);
-                                          tasks.put(task, false);
-                                        }),
-                                      ),
-                                    )
-                                    .toList(),
-                              )
-                            : const Text(
-                                "No completed tasks yet. Complete tasks by tapping the card.",
-                              )
-                      ],
-                    ),
-                    const PageFooter(),
-                  ],
+                  ),
                 ),
               ),
-            ),
+            ],
           ),
+          const PageFooter()
         ],
       ),
     );
