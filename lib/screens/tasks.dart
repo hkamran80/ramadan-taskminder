@@ -125,10 +125,7 @@ class _TasksScreenState extends State<TasksScreen> {
                               )
                       ],
                     ),
-                    const SizedBox(
-                      height: 25,
-                    ),
-                    const PageFooter()
+                    const PageFooter(),
                   ],
                 ),
               ),
