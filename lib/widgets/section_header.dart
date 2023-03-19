@@ -14,7 +14,7 @@ class SectionHeader extends StatelessWidget {
   final String title;
   final String? subtitle;
   final String? buttonText;
-  final Function? onClick;
+  final GestureTapCallback? onClick;
 
   @override
   Widget build(BuildContext context) {
@@ -41,17 +41,17 @@ class SectionHeader extends StatelessWidget {
           )
         : null;
 
-    final headerWidget = (subtitle != null ? mainHeader : titleWidget) as Widget;
+    final headerWidget =
+        (subtitle != null ? mainHeader : titleWidget) as Widget;
 
-    // TODO: Check for `buttonText` and `onClick`
-    if (buttonText != null) {
+    if (buttonText != null && onClick != null) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           headerWidget,
           TextButton(
-            onPressed: () {},
+            onPressed: onClick!,
             child: Text(
               buttonText!.toUpperCase(),
               style: const TextStyle(
