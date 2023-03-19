@@ -1,7 +1,7 @@
 const surahs = [
-  {"name": "Al-Fatiha", "ayahs": 7},
-  {"name": "Al-Baqara", "ayahs": 286},
-  {"name": "Aal-Imran", "ayahs": 200},
+  {"name": "Al-Fatihah", "ayahs": 7},
+  {"name": "Al-Baqarah", "ayahs": 286},
+  {"name": "Al-Imran", "ayahs": 200},
   {"name": "An-Nisaa'", "ayahs": 176},
   {"name": "Al-Ma'ida", "ayahs": 120},
   {"name": "Al-An'am", "ayahs": 165},
