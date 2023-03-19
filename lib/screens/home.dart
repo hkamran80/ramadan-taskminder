@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hijri/hijri_calendar.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:ramadan_taskminder/constants.dart';
 import 'package:ramadan_taskminder/tasks.dart';
 import 'package:ramadan_taskminder/widgets/page_footer.dart';
@@ -18,6 +20,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  DateTime current = DateTime.now();
+  HijriCalendar hijriCurrent = HijriCalendar.now();
   Box tasks =
       Hive.box("tasks_${DateTime.now().toIso8601String().split("T")[0]}");
 
@@ -56,13 +60,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   [
                     PageHeader(
                       header: appName,
-                      title: "1 Ramadan 1444",
+                      title:
+                          "${hijriCurrent.hDay} ${hijriCurrent.longMonthName} ${hijriCurrent.hYear}",
                       rightAlign: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            "23",
+                            current.day.toString(),
                             style: GoogleFonts.mPlus1p(
                               fontWeight: FontWeight.w500,
                               fontSize: 32,
@@ -70,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                           Text(
-                            "March".toUpperCase(),
+                            DateFormat.MMMM().format(current).toUpperCase(),
                             style: GoogleFonts.mPlus1p(
                               fontWeight: FontWeight.w300,
                               fontSize: 14,
