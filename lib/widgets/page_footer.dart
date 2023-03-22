@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:ramadan_taskminder/theme.dart';
 import 'package:ramadan_taskminder/widgets/tab_bar_item.dart';
 
 class PageFooter extends StatelessWidget {
@@ -23,7 +24,9 @@ class PageFooter extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.only(top: 20),
           child: Container(
-            color: const Color.fromRGBO(255, 255, 255, 0.5),
+            color: isDark(context)
+                ? const Color.fromRGBO(0, 0, 0, 0.5)
+                : const Color.fromRGBO(255, 255, 255, 0.5),
             child: Padding(
               padding: const EdgeInsets.fromLTRB(50, 5, 50, 25),
               child: Row(
