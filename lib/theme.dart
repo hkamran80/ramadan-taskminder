@@ -12,29 +12,22 @@ const activeTabLightColor = Color(0xFF000000);
 const inactiveTabLightColor = Color.fromRGBO(0, 0, 0, .25);
 
 const activeTabDarkColor = Color(0xFFFFFFFF);
-const inactiveTabDarkColor = Color.fromRGBO(255, 255, 255, .25);
+const inactiveTabDarkColor = Color.fromRGBO(255, 255, 255, .45);
+
+bool isDark(BuildContext context) =>
+    Theme.of(context).brightness == Brightness.dark;
 
 Color getPrimaryColor(BuildContext context) =>
-    Theme.of(context).brightness == Brightness.dark
-        ? primaryDarkColor
-        : primaryLightColor;
+    isDark(context) ? primaryDarkColor : primaryLightColor;
 
 Color getBackgroundColor(BuildContext context) =>
-    Theme.of(context).brightness == Brightness.dark
-        ? Colors.black
-        : backgroundColor;
+    isDark(context) ? Colors.black : backgroundColor;
 
 Color getButtonTextColor(BuildContext context) =>
-    Theme.of(context).brightness == Brightness.dark
-        ? buttonTextDarkColor
-        : buttonTextLightColor;
+    isDark(context) ? buttonTextDarkColor : buttonTextLightColor;
 
 Color getActiveTabColor(BuildContext context) =>
-    Theme.of(context).brightness == Brightness.dark
-        ? activeTabDarkColor
-        : activeTabLightColor;
+    isDark(context) ? activeTabDarkColor : activeTabLightColor;
 
 Color getInactiveTabColor(BuildContext context) =>
-    Theme.of(context).brightness == Brightness.dark
-        ? inactiveTabDarkColor
-        : inactiveTabLightColor;
+    isDark(context) ? inactiveTabDarkColor : inactiveTabLightColor;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:ramadan_taskminder/theme.dart';
 import 'package:ramadan_taskminder/widgets/tab_bar_item.dart';
 
 class PageFooter extends StatelessWidget {
@@ -21,19 +22,27 @@ class PageFooter extends StatelessWidget {
       child: Align(
         alignment: Alignment.bottomCenter,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 50),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: tabBar
-                .map(
-                  (List item) => TabBarItem(
-                    location: item[0],
-                    icon: item[1],
-                    active: currentLocation == item[0],
-                  ),
-                )
-                .toList(),
+          padding: const EdgeInsets.only(top: 20),
+          child: Container(
+            color: isDark(context)
+                ? const Color.fromRGBO(0, 0, 0, 0.5)
+                : const Color.fromRGBO(255, 255, 255, 0.5),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(50, 5, 50, 25),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: tabBar
+                    .map(
+                      (List item) => TabBarItem(
+                        location: item[0],
+                        icon: item[1],
+                        active: currentLocation == item[0],
+                      ),
+                    )
+                    .toList(),
+              ),
+            ),
           ),
         ),
       ),
