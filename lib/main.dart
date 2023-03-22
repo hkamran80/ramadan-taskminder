@@ -10,7 +10,7 @@ import 'package:ramadan_taskminder/screens/tasks.dart';
 
 Future<void> main() async {
   await Hive.initFlutter();
-  await Hive.openBox("tasks_${DateTime.now().toIso8601String().split("T")[0]}");
+  await Hive.openBox("tasks");
   await Hive.openBox("quran");
   runApp(const RamadanTaskminder());
 }

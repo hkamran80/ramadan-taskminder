@@ -1,4 +1,4 @@
-final List<String> allTasks = [
+final List<String> initialTasks = [
   "Istighfar (70+)",
   "Shukr (Alhamduillah)",
   "Give Charity",

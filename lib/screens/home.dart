@@ -5,6 +5,7 @@ import 'package:hijri/hijri_calendar.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:ramadan_taskminder/constants.dart';
+import 'package:ramadan_taskminder/extensions/date.dart';
 import 'package:ramadan_taskminder/theme.dart';
 import 'package:ramadan_taskminder/tasks.dart';
 import 'package:ramadan_taskminder/widgets/page_footer.dart';
@@ -12,6 +13,7 @@ import 'package:ramadan_taskminder/widgets/page_header.dart';
 import 'package:ramadan_taskminder/widgets/section_header.dart';
 import 'package:ramadan_taskminder/widgets/statistic_card.dart';
 import 'package:ramadan_taskminder/widgets/wide_card.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -24,9 +26,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   DateTime current = DateTime.now();
   HijriCalendar hijriCurrent = HijriCalendar.now();
-  Box tasks =
-      Hive.box("tasks_${DateTime.now().toIso8601String().split("T")[0]}");
+  Box tasksBox = Hive.box("tasks");
   Box quran = Hive.box("quran");
+  late Map<String, bool> tasks;
 
   @override
   void initState() {
@@ -35,12 +37,29 @@ class _HomeScreenState extends State<HomeScreen> {
     initializeHistory();
   }
 
+  void firstRun() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    bool firstRun = preferences.getBool("firstRun") ?? true;
+    if (firstRun) {
+      tasksBox.put("allTasks", initialTasks);
+      preferences.setBool("firstRun", false);
+    }
+  }
+
   void initializeTasks() {
+    List<String> allTasks =
+        tasksBox.get("allTasks", defaultValue: initialTasks) as List<String>;
+    tasks = Map.from(
+      tasksBox.get(current.getYMD(), defaultValue: {}),
+    );
+
     for (var task in allTasks) {
-      if (tasks.get(task) == null) {
-        tasks.put(task, false);
+      if (!tasks.containsKey(task)) {
+        tasks[task] = false;
       }
     }
+
+    tasksBox.put(current.getYMD(), tasks);
   }
 
   void initializeHistory() {
@@ -58,8 +77,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Iterable incompleteTasks =
-        tasks.toMap().entries.where((task) => task.value == false);
+    Iterable incompleteTasks = tasks.entries.where(
+      (task) => task.value == false,
+    );
 
     return Material(
       color: getBackgroundColor(context),
