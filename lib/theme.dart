@@ -12,7 +12,7 @@ const activeTabLightColor = Color(0xFF000000);
 const inactiveTabLightColor = Color.fromRGBO(0, 0, 0, .25);
 
 const activeTabDarkColor = Color(0xFFFFFFFF);
-const inactiveTabDarkColor = Color.fromRGBO(255, 255, 255, .25);
+const inactiveTabDarkColor = Color.fromRGBO(255, 255, 255, .45);
 
 bool isDark(BuildContext context) =>
     Theme.of(context).brightness == Brightness.dark;
