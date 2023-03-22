@@ -1,11 +1,4 @@
-import 'package:flutter/material.dart';
-
 const appName = "Ramadan Taskminder";
 
-const primaryColor = Color(0xFFA9C5B8);
-const primaryDarkColor = Color(0xFF4B5A53);
-const backgroundColor = Color(0xFFF5F4ED);
-const buttonTextColor = Color(0xFF383838);
-
-const activeTabColor = Color(0xFF000000);
-const inactiveTabColor = Color.fromRGBO(0, 0, 0, .25);
+Uri feedbackUrl = Uri.parse(
+    "https://docs.google.com/forms/d/e/1FAIpQLScqajYl3qmnkdb48voPwN88LENp6XPxPh4eYQzgZUhAluqGWg/viewform?usp=sf_link");

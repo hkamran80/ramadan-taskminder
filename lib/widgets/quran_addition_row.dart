@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ramadan_taskminder/extensions/text_field.dart';
 import 'package:ramadan_taskminder/quran.dart';
+import 'package:ramadan_taskminder/theme.dart';
 import 'package:ramadan_taskminder/widgets/stacked_card.dart';
 
 class QuranAdditionRow extends StatefulWidget {
@@ -64,7 +65,7 @@ class _QuranAdditionRowState extends State<QuranAdditionRow> {
           ),
         ),
         InkWell(
-          onTap: widget.surahIndex == -1 && ayahsCount == null
+          onTap: widget.surahIndex == -1 && ayahsCount == 0
               ? null
               : () => showModalBottomSheet(
                     context: context,
@@ -87,7 +88,7 @@ class _QuranAdditionRowState extends State<QuranAdditionRow> {
                             const SizedBox(height: 10),
                             TextField(
                               onChanged: (value) {
-                                int? ayah = int.tryParse(value);
+                                int? ayah = int.tryParse(value.replaceAll(RegExp(r"[^0-9]"), ""));
                                 if (ayah != null &&
                                     ayah > 0 &&
                                     ayah <= ayahsCount!) {
@@ -99,6 +100,7 @@ class _QuranAdditionRowState extends State<QuranAdditionRow> {
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                 labelText: "Ayah",
+                                focusColor: getPrimaryColor(context),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15),
                                 ),

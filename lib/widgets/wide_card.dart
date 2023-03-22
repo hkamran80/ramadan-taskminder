@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ramadan_taskminder/constants.dart';
+import 'package:ramadan_taskminder/theme.dart';
 
 class WideCard extends StatelessWidget {
   const WideCard({
@@ -33,7 +33,7 @@ class WideCard extends StatelessWidget {
         child: Ink(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: primaryColor,
+            color: getPrimaryColor(context),
           ),
           child: SizedBox(
             width: width,
@@ -45,7 +45,7 @@ class WideCard extends StatelessWidget {
       return Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: primaryColor,
+          color: getPrimaryColor(context),
         ),
         width: width,
         child: widgetContent,
