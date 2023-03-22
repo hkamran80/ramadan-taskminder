@@ -1,16 +1,15 @@
-# muslim_taskminder
+# Ramadan Taskminder
 
-A new Flutter project.
+Stay on task for Ramadan!
 
-## Getting Started
+[![App Store badge](https://13willow.com/assets/badges/appstore.svg)](https://apps.apple.com/app/ramadan-taskminder/id6446471761?itsct=apps_box_badge&itscg=30200)
 
-This project is a starting point for a Flutter application.
+Ramadan Taskminder allows you to stay on top of your tasks for Ramadan. Keep track
+of your Qur'an reading and other key tasks.
 
-A few resources to get you started if this is your first Flutter project:
+Ramadan Taskminder currently supports tasks and logging your Qur'an reading. All
+data is stored on your device, and is not synced anywhere. No diagnostics or analytics
+is collected.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+If you have any feature requests, bug reports, or any other feedback, please
+[contact us using this form](https://docs.google.com/forms/d/e/1FAIpQLScqajYl3qmnkdb48voPwN88LENp6XPxPh4eYQzgZUhAluqGWg/viewform).
