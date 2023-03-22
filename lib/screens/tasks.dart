@@ -18,8 +18,7 @@ class _TasksScreenState extends State<TasksScreen> {
   List<String> complete = [];
   List<String> incomplete = [];
 
-  Box tasks =
-      Hive.box("tasks_${DateTime.now().toIso8601String().split("T")[0]}");
+  Box tasks = Hive.box("tasks");
 
   @override
   void initState() {
@@ -29,7 +28,7 @@ class _TasksScreenState extends State<TasksScreen> {
   }
 
   void initializeTasks() {
-    for (var task in allTasks) {
+    for (var task in initialTasks) {
       bool? taskStatus = tasks.get(task);
       if (taskStatus == null || taskStatus == false) {
         tasks.put(task, false);
@@ -61,7 +60,7 @@ class _TasksScreenState extends State<TasksScreen> {
                         PageHeader(
                           header: "Tasks",
                           title:
-                              "${complete.length}/${allTasks.length} completed",
+                              "${complete.length}/${initialTasks.length} completed",
                           hintText:
                               "Tap an item to mark it as complete/incomplete",
                         ),
