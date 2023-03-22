@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:ramadan_taskminder/extensions/date.dart';
 import 'package:ramadan_taskminder/theme.dart';
 import 'package:ramadan_taskminder/tasks.dart';
 import 'package:ramadan_taskminder/widgets/page_footer.dart';
@@ -15,28 +16,53 @@ class TasksScreen extends StatefulWidget {
 }
 
 class _TasksScreenState extends State<TasksScreen> {
+  DateTime current = DateTime.now();
   List<String> complete = [];
   List<String> incomplete = [];
 
-  Box tasks = Hive.box("tasks");
+  Box tasksBox = Hive.box("tasks");
+  late List<String> allTasks;
+  late Map<String, bool> tasks;
 
   @override
   void initState() {
     super.initState();
-
     initializeTasks();
   }
 
   void initializeTasks() {
-    for (var task in initialTasks) {
-      bool? taskStatus = tasks.get(task);
-      if (taskStatus == null || taskStatus == false) {
-        tasks.put(task, false);
+    allTasks =
+        tasksBox.get("allTasks", defaultValue: initialTasks) as List<String>;
+    tasks = Map.from(
+      tasksBox.get(current.getYMD(), defaultValue: {}),
+    );
+
+    for (var task in allTasks) {
+      bool taskPresent = tasks.containsKey(task);
+      if (!taskPresent) {
+        tasks[task] = false;
         incomplete.add(task);
-      } else if (taskStatus == true) {
+      } else if (tasks[task] == false) {
+        incomplete.add(task);
+      } else if (tasks[task] == true) {
         complete.add(task);
       }
     }
+
+    tasksBox.put(current.getYMD(), tasks);
+  }
+
+  void toggleTask(String task, bool currentState) {
+    if (currentState == true) {
+      complete.remove(task);
+      incomplete.add(task);
+    } else {
+      incomplete.remove(task);
+      complete.add(task);
+    }
+
+    tasks[task] = !currentState;
+    tasksBox.put(current.getYMD(), tasks);
   }
 
   @override
@@ -60,7 +86,7 @@ class _TasksScreenState extends State<TasksScreen> {
                         PageHeader(
                           header: "Tasks",
                           title:
-                              "${complete.length}/${initialTasks.length} completed",
+                              "${complete.length}/${allTasks.length} completed",
                           hintText:
                               "Tap an item to mark it as complete/incomplete",
                         ),
@@ -82,11 +108,9 @@ class _TasksScreenState extends State<TasksScreen> {
                                         .map(
                                           (task) => WideCard(
                                             content: task,
-                                            onTap: () => setState(() {
-                                              incomplete.remove(task);
-                                              complete.add(task);
-                                              tasks.put(task, true);
-                                            }),
+                                            onTap: () => setState(
+                                              () => toggleTask(task, false),
+                                            ),
                                           ),
                                         )
                                         .toList(),
@@ -114,11 +138,9 @@ class _TasksScreenState extends State<TasksScreen> {
                                         .map(
                                           (task) => WideCard(
                                             content: task,
-                                            onTap: () => setState(() {
-                                              complete.remove(task);
-                                              incomplete.add(task);
-                                              tasks.put(task, false);
-                                            }),
+                                            onTap: () => setState(
+                                              () => toggleTask(task, true),
+                                            ),
                                           ),
                                         )
                                         .toList(),
