@@ -10,7 +10,6 @@ import 'package:ramadan_taskminder/tasks.dart';
 import 'package:ramadan_taskminder/widgets/page_footer.dart';
 import 'package:ramadan_taskminder/widgets/page_header.dart';
 import 'package:ramadan_taskminder/widgets/section_header.dart';
-import 'package:ramadan_taskminder/widgets/stacked_card.dart';
 import 'package:ramadan_taskminder/widgets/statistic_card.dart';
 import 'package:ramadan_taskminder/widgets/wide_card.dart';
 import 'package:url_launcher/url_launcher.dart';

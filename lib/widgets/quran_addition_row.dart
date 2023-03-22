@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:ramadan_taskminder/extensions/text_field.dart';
 import 'package:ramadan_taskminder/quran.dart';
 import 'package:ramadan_taskminder/theme.dart';
 import 'package:ramadan_taskminder/widgets/stacked_card.dart';
