@@ -44,7 +44,14 @@ class _QuranAdditionRowState extends State<QuranAdditionRow> {
                 itemCount: surahNames.length,
                 itemBuilder: (BuildContext context, int index) {
                   return ListTile(
+                    leading: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text((index + 1).toString()),
+                      ],
+                    ),
                     title: Text(surahNames[index]),
+                    minLeadingWidth: 0,
                     selected:
                         widget.surahIndex != -1 && widget.surahIndex == index,
                     selectedColor: Colors.green,
@@ -88,7 +95,8 @@ class _QuranAdditionRowState extends State<QuranAdditionRow> {
                             const SizedBox(height: 10),
                             TextField(
                               onChanged: (value) {
-                                int? ayah = int.tryParse(value.replaceAll(RegExp(r"[^0-9]"), ""));
+                                int? ayah = int.tryParse(
+                                    value.replaceAll(RegExp(r"[^0-9]"), ""));
                                 if (ayah != null &&
                                     ayah > 0 &&
                                     ayah <= ayahsCount!) {
