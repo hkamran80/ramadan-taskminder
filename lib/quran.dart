@@ -239,3 +239,25 @@ const juz = [
     "end": {"surah": 114, "verse": 6}
   }
 ];
+
+int calculateAyahsRead(List history) {
+  int ayahs = 0;
+
+  Iterable entries = history.map((entry) => entry[1]);
+  for (var entry in entries) {
+    List<int> start = entry[0].toString().split("-").map(int.parse).toList();
+    List<int> end = entry[1].toString().split("-").map(int.parse).toList();
+
+    if (start[0] - 1 == end[0] - 1) {
+      ayahs += end[1] - start[1];
+    } else {
+      ayahs += surahs
+              .sublist(start[0] - 1, end[0] - 1)
+              .map((surah) => int.parse(surah["ayahs"].toString()))
+              .reduce((p, c) => p + c) +
+          end[1];
+    }
+  }
+
+  return ayahs;
+}
