@@ -29,7 +29,7 @@ class WideCard extends StatelessWidget {
 
     if (onTap != null) {
       return InkWell(
-        onTap:  onTap!,
+        onTap: onTap!,
         child: Ink(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),

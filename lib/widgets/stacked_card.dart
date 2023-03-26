@@ -7,43 +7,65 @@ class StackedCard extends StatelessWidget {
     required this.header,
     required this.title,
     this.fullWidth,
+    this.onLongPress,
   }) : super(key: key);
 
   final String header;
   final String title;
   final bool? fullWidth;
+  final GestureTapCallback? onLongPress;
 
   @override
   Widget build(BuildContext context) {
-    final width = (MediaQuery.of(context).size.width - 50);
+    final baseWidth = (MediaQuery.of(context).size.width - 50);
+    final width =
+        fullWidth != null && fullWidth! ? baseWidth + 10 : baseWidth / 2;
 
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        color: getPrimaryColor(context),
-      ),
-      width: fullWidth != null && fullWidth! ? width + 10 : width / 2,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              header.toUpperCase(),
-              style: const TextStyle(
-                fontSize: 12,
-              ),
+    final widgetContent = Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            header.toUpperCase(),
+            style: const TextStyle(
+              fontSize: 12,
             ),
-            Text(
-              title,
-              style: const TextStyle(
-                fontSize: 20,
-              ),
+          ),
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 20,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
+
+    if (onLongPress != null) {
+      return InkWell(
+        onLongPress: onLongPress!,
+        child: Ink(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            color: getPrimaryColor(context),
+          ),
+          child: SizedBox(
+            width: width,
+            child: widgetContent,
+          ),
+        ),
+      );
+    } else {
+      return Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          color: getPrimaryColor(context),
+        ),
+        width: width,
+        child: widgetContent,
+      );
+    }
   }
 }

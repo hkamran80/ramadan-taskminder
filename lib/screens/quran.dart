@@ -31,6 +31,8 @@ class _QuranScreenState extends State<QuranScreen> {
 
   bool showHelp = false;
 
+  int deletingHistoryEntry = -1;
+
   @override
   void initState() {
     super.initState();
@@ -67,6 +69,69 @@ class _QuranScreenState extends State<QuranScreen> {
       }
 
       startingAyah = lastEntry[1] < currentSurahAyahs ? lastEntry[1] + 1 : 1;
+    } else {
+      startingSurah = -1;
+      startingAyah = 0;
+
+      endingSurah = -1;
+      endingAyah = 0;
+    }
+  }
+
+  void confirmEntryDelete() {
+    if (deletingHistoryEntry != -1) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          final entry = history[deletingHistoryEntry];
+          final date = DateTime.parse(entry[0].toString());
+          final hijriDate = HijriCalendar.fromDate(date);
+
+          final starting = (entry[1] as List<String>)[0].split("-");
+          final ending = (entry[1] as List<String>)[1].split("-");
+
+          return AlertDialog(
+            title: const Text("Confirm Entry Deletion"),
+            content: SingleChildScrollView(
+              child: Wrap(
+                runSpacing: 15,
+                children: [
+                  const Text(
+                      "Are you sure you want to delete the following entry?"),
+                  StackedCard(
+                    header:
+                        "${DateFormat.MMMMd().format(date)} / ${hijriDate.longMonthName} ${hijriDate.hDay}",
+                    title:
+                        "${surahs[int.parse(starting[0]) - 1]["name"].toString()} ${starting[1]} - ${surahs[int.parse(ending[0]) - 1]["name"].toString()} ${ending[1]}",
+                    fullWidth: true,
+                  ),
+                ],
+              ),
+            ),
+            actions: [
+              TextButton(
+                child: const Text(
+                  "Delete",
+                  style: TextStyle(
+                    color: destructiveActionColor,
+                  ),
+                ),
+                onPressed: () {
+                  setState(() {
+                    history.removeAt(deletingHistoryEntry);
+                    setStartingEntry();
+                  });
+                  
+                  quran.put("history", history);
+                  deletingHistoryEntry = -1;
+
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
     }
   }
 
@@ -213,6 +278,11 @@ class _QuranScreenState extends State<QuranScreen> {
                                           title:
                                               "${surahs[int.parse(starting[0]) - 1]["name"].toString()} ${starting[1]} - ${surahs[int.parse(ending[0]) - 1]["name"].toString()} ${ending[1]}",
                                           fullWidth: true,
+                                          onLongPress: () {
+                                            deletingHistoryEntry =
+                                                history.indexOf(entry);
+                                            confirmEntryDelete();
+                                          },
                                         );
                                       },
                                     ).toList(),
