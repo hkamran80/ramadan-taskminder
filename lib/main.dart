@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ramadan_taskminder/constants.dart';
+import 'package:ramadan_taskminder/screens/prayers.dart';
 import 'package:ramadan_taskminder/theme.dart';
 import 'package:ramadan_taskminder/screens/home.dart';
 import 'package:ramadan_taskminder/screens/quran.dart';
@@ -12,6 +13,7 @@ Future<void> main() async {
   await Hive.initFlutter();
   await Hive.openBox("tasks");
   await Hive.openBox("quran");
+  await Hive.openBox("prayers");
   runApp(const RamadanTaskminder());
 }
 
@@ -29,6 +31,10 @@ final _router = GoRouter(
     GoRoute(
       path: '/quran',
       builder: (context, state) => const QuranScreen(),
+    ),
+    GoRoute(
+      path: '/prayers',
+      builder: (context, state) => const PrayersScreen(),
     ),
   ],
 );
