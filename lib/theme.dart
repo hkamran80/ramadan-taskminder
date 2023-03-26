@@ -14,6 +14,8 @@ const inactiveTabLightColor = Color.fromRGBO(0, 0, 0, .25);
 const activeTabDarkColor = Color(0xFFFFFFFF);
 const inactiveTabDarkColor = Color.fromRGBO(255, 255, 255, .45);
 
+const destructiveActionColor = Color(0xFFEF4444);
+
 bool isDark(BuildContext context) =>
     Theme.of(context).brightness == Brightness.dark;
 
