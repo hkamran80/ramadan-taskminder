@@ -1,10 +1,10 @@
 final List<String> initialTasks = [
+  "Morning Adhkar",
+  "Recite Qur'an",
   "Istighfar (70+)",
   "Shukr (Alhamduillah)",
   "Give Charity",
-  "Recite Qur'an",
+  "Random Kindess",
   "Evening Adhkar",
   "Adhkar Before Sleep",
-  "Morning Adhkar",
-  "Random Kindess",
 ];

@@ -61,8 +61,22 @@ class _TasksScreenState extends State<TasksScreen> {
       complete.add(task);
     }
 
+    sortTasks();
+
     tasks[task] = !currentState;
     tasksBox.put(current.getYMD(), tasks);
+  }
+
+  void sortTasks() {
+    incomplete = [...allTasks];
+    for (var task in complete) {
+      incomplete.remove(task);
+    }
+
+    complete = [...allTasks];
+    for (var task in incomplete) {
+      complete.remove(task);
+    }
   }
 
   @override

@@ -27,15 +27,19 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   DateTime current = DateTime.now();
   HijriCalendar hijriCurrent = HijriCalendar.now();
+
   Box tasksBox = Hive.box("tasks");
   Box prayersBox = Hive.box("prayers");
   Box quran = Hive.box("quran");
+
+  late List<String> allTasks;
   late Map<String, bool> tasks;
   late Map<String, bool> prayers;
 
   @override
   void initState() {
     super.initState();
+    firstRun();
     initializeTasks();
     initializeHistory();
     initializePrayers();
@@ -51,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void initializeTasks() {
-    List<String> allTasks =
+    allTasks =
         tasksBox.get("allTasks", defaultValue: initialTasks) as List<String>;
     tasks = Map.from(
       tasksBox.get(current.getYMD(), defaultValue: {}),
@@ -96,9 +100,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Iterable incompleteTasks = tasks.entries.where(
-      (task) => task.value == false,
+    List<MapEntry<String, bool>> incompleteTasks = tasks.entries
+        .where(
+          (task) => task.value == false,
+        )
+        .toList();
+    incompleteTasks.sort(
+      (a, b) => allTasks.indexOf(a.key).compareTo(
+            allTasks.indexOf(b.key),
+          ),
     );
+
     Iterable completedPrayers = prayers.entries
         .where(
           (prayer) => prayer.value == true,
