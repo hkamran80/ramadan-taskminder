@@ -11,6 +11,7 @@ import 'package:ramadan_taskminder/widgets/section_header.dart';
 import 'package:ramadan_taskminder/widgets/stacked_card.dart';
 import 'package:ramadan_taskminder/widgets/wide_card.dart';
 
+
 class QuranScreen extends StatefulWidget {
   const QuranScreen({super.key});
 
@@ -135,8 +136,36 @@ class _QuranScreenState extends State<QuranScreen> {
     }
   }
 
+  void calculatePercentage() {
+    int ayshs = 0;
+
+    Iterable entries = history.map((entry) => entry[1]);
+    for (var entry in entries) {
+      List start = entry[0].split("-").map(int.parse).toList();
+      List end = entry[1].split("-").map(int.parse).toList();
+
+      var startSurah = surahs[start[0] - 1];
+      var endSurah = surahs[end[0] - 1];
+
+      print(start);
+      print(startSurah);
+      print(end);
+      print(endSurah);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    // print(surahs.map((surah) => int.tryParse(surah["ayahs"].toString())));
+    // print(surahs
+    //     .map((surah) => int.tryParse(surah["ayahs"].toString()))
+    //     .where(
+    //       (element) => element != null,
+    //     )
+    //     .reduce((a, b) => a! + b!));
+
+    calculatePercentage();
+
     return Material(
       color: getBackgroundColor(context),
       child: Stack(
@@ -157,8 +186,28 @@ class _QuranScreenState extends State<QuranScreen> {
                           header: "Qur'an",
                           title: "${history.length} entries",
                         ),
+                        const SizedBox(height: 15),
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SectionHeader(
+                              title: "Overview",
+                            ),
+                            const SizedBox(height: 15),
+                            Wrap(
+                              runSpacing: 10,
+                              children: const [
+                                WideCard(content: "2% read of Qur'an"),
+                                WideCard(content: "166 ayahs read"),
+                                WideCard(content: "85% of Juz 1 complete"),
+                                WideCard(content: "29 juz left")
+                              ],
+                            ),
+                          ],
+                        ),
                         const SizedBox(
-                          height: 15,
+                          height: 25,
                         ),
                         Column(
                           mainAxisSize: MainAxisSize.min,
