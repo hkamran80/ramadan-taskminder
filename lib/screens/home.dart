@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:ramadan_taskminder/constants.dart';
 import 'package:ramadan_taskminder/extensions/date.dart';
 import 'package:ramadan_taskminder/prayers.dart';
+import 'package:ramadan_taskminder/quran.dart';
 import 'package:ramadan_taskminder/theme.dart';
 import 'package:ramadan_taskminder/tasks.dart';
 import 'package:ramadan_taskminder/widgets/page_footer.dart';
@@ -110,6 +111,13 @@ class _HomeScreenState extends State<HomeScreen> {
             allTasks.indexOf(b.key),
           ),
     );
+
+    String currentDate = DateTime.now().toIso8601String().split("T")[0];
+    List history = quran.get("history");
+    List todaysEntries =
+        history.where((entry) => entry[0] == currentDate).toList();
+    int ayahsRead = calculateAyahsRead(history);
+    String percentageRead = (ayahsRead / totalAyahCount).toStringAsFixed(1);
 
     Iterable completedPrayers = prayers.entries
         .where(
@@ -215,12 +223,30 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             SectionHeader(
                               title: "Qur'an",
-                              subtitle:
-                                  "${quran.get('history').length} entries",
+                              subtitle: todaysEntries.isEmpty
+                                  ? "Nothing read today"
+                                  : "${calculateAyahsRead(todaysEntries)} ayahs read today",
                               buttonText: "Track",
                               onClick: (() =>
                                   GoRouter.of(context).go("/quran")),
                             ),
+                            const SizedBox(height: 15),
+                            history.isNotEmpty
+                                ? Wrap(
+                                    spacing: 10,
+                                    runSpacing: 10,
+                                    children: [
+                                      Statistic(
+                                        statistic: "$percentageRead% read",
+                                      ),
+                                      Statistic(
+                                        statistic: "$ayahsRead ayahs",
+                                      ),
+                                    ],
+                                  )
+                                : const Text(
+                                    "You haven't logged any entries yet.",
+                                  ),
                           ],
                         ),
                         const SizedBox(

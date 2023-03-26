@@ -20,17 +20,21 @@ class QuranScreen extends StatefulWidget {
 
 class _QuranScreenState extends State<QuranScreen> {
   List history = [];
-
   Box quran = Hive.box("quran");
 
+  // Logging
   int startingSurah = -1;
   int startingAyah = 0;
 
   int endingSurah = -1;
   int endingAyah = 0;
 
-  bool showHelp = false;
+  // Statistics
+  int ayahsRead = 0;
+  String percentageRead = "0";
 
+  // Helpers
+  bool showHelp = false;
   int deletingHistoryEntry = -1;
 
   @override
@@ -38,6 +42,7 @@ class _QuranScreenState extends State<QuranScreen> {
     super.initState();
     initializeHistory();
     setStartingEntry();
+    calculateStatistics();
   }
 
   void initializeHistory() {
@@ -121,7 +126,7 @@ class _QuranScreenState extends State<QuranScreen> {
                     history.removeAt(deletingHistoryEntry);
                     setStartingEntry();
                   });
-                  
+
                   quran.put("history", history);
                   deletingHistoryEntry = -1;
 
@@ -135,8 +140,17 @@ class _QuranScreenState extends State<QuranScreen> {
     }
   }
 
+  void calculateStatistics() {
+    ayahsRead = calculateAyahsRead(history);
+    percentageRead = (ayahsRead / totalAyahCount).toStringAsFixed(1);
+  }
+
   @override
   Widget build(BuildContext context) {
+    String currentDate = DateTime.now().toIso8601String().split("T")[0];
+    List todaysEntries =
+        history.where((entry) => entry[0] == currentDate).toList();
+
     return Material(
       color: getBackgroundColor(context),
       child: Stack(
@@ -155,10 +169,34 @@ class _QuranScreenState extends State<QuranScreen> {
                       [
                         PageHeader(
                           header: "Qur'an",
-                          title: "${history.length} entries",
+                          title: todaysEntries.isEmpty
+                              ? "Nothing read today"
+                              : "${calculateAyahsRead(todaysEntries)} ayahs read today",
+                        ),
+                        const SizedBox(height: 15),
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SectionHeader(
+                              title: "Overview",
+                            ),
+                            const SizedBox(height: 15),
+                            Wrap(
+                              runSpacing: 10,
+                              children: [
+                                WideCard(
+                                  content: "$percentageRead% read of Qur'an",
+                                ),
+                                WideCard(
+                                  content: "$ayahsRead ayahs read",
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                         const SizedBox(
-                          height: 15,
+                          height: 25,
                         ),
                         Column(
                           mainAxisSize: MainAxisSize.min,
@@ -236,6 +274,7 @@ class _QuranScreenState extends State<QuranScreen> {
                                             endingAyah = 0;
 
                                             setStartingEntry();
+                                            calculateStatistics();
                                           },
                                         ),
                                       )
