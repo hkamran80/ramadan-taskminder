@@ -113,8 +113,11 @@ class _HomeScreenState extends State<HomeScreen> {
     );
 
     String currentDate = DateTime.now().toIso8601String().split("T")[0];
+    List history = quran.get("history");
     List todaysEntries =
-        quran.get("history").where((entry) => entry[0] == currentDate).toList();
+        history.where((entry) => entry[0] == currentDate).toList();
+    int ayahsRead = calculateAyahsRead(history);
+    String percentageRead = (ayahsRead / totalAyahCount).toStringAsFixed(1);
 
     Iterable completedPrayers = prayers.entries
         .where(
@@ -227,6 +230,23 @@ class _HomeScreenState extends State<HomeScreen> {
                               onClick: (() =>
                                   GoRouter.of(context).go("/quran")),
                             ),
+                            const SizedBox(height: 15),
+                            history.isNotEmpty
+                                ? Wrap(
+                                    spacing: 10,
+                                    runSpacing: 10,
+                                    children: [
+                                      Statistic(
+                                        statistic: "$percentageRead% read",
+                                      ),
+                                      Statistic(
+                                        statistic: "$ayahsRead ayahs",
+                                      ),
+                                    ],
+                                  )
+                                : const Text(
+                                    "You haven't logged any entries yet.",
+                                  ),
                           ],
                         ),
                         const SizedBox(
