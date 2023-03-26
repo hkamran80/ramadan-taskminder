@@ -3,7 +3,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ramadan_taskminder/extensions/date.dart';
 import 'package:ramadan_taskminder/prayers.dart';
 import 'package:ramadan_taskminder/theme.dart';
-import 'package:ramadan_taskminder/tasks.dart';
 import 'package:ramadan_taskminder/widgets/page_footer.dart';
 import 'package:ramadan_taskminder/widgets/page_header.dart';
 import 'package:ramadan_taskminder/widgets/section_header.dart';
