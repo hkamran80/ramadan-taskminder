@@ -1,3 +1,5 @@
+const totalAyahCount = 6236;
+
 const surahs = [
   {"name": "Al-Fatihah", "ayahs": 7},
   {"name": "Al-Baqarah", "ayahs": 286},
