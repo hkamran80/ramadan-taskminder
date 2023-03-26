@@ -16,6 +16,7 @@ class PageFooter extends StatelessWidget {
       ["/", LucideIcons.home],
       ["/tasks", LucideIcons.clipboardList],
       ["/quran", LucideIcons.bookOpen],
+      ["/prayers", LucideIcons.alignVerticalJustifyEnd],
     ];
 
     return Center(
