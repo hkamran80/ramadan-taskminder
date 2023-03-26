@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:ramadan_taskminder/constants.dart';
 import 'package:ramadan_taskminder/extensions/date.dart';
 import 'package:ramadan_taskminder/prayers.dart';
+import 'package:ramadan_taskminder/quran.dart';
 import 'package:ramadan_taskminder/theme.dart';
 import 'package:ramadan_taskminder/tasks.dart';
 import 'package:ramadan_taskminder/widgets/page_footer.dart';
@@ -110,6 +111,10 @@ class _HomeScreenState extends State<HomeScreen> {
             allTasks.indexOf(b.key),
           ),
     );
+
+    String currentDate = DateTime.now().toIso8601String().split("T")[0];
+    List todaysEntries =
+        quran.get("history").where((entry) => entry[0] == currentDate).toList();
 
     Iterable completedPrayers = prayers.entries
         .where(
@@ -215,8 +220,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             SectionHeader(
                               title: "Qur'an",
-                              subtitle:
-                                  "${quran.get('history').length} entries",
+                              subtitle: todaysEntries.isEmpty
+                                  ? "Nothing read today"
+                                  : "${calculateAyahsRead(todaysEntries)} ayahs read today",
                               buttonText: "Track",
                               onClick: (() =>
                                   GoRouter.of(context).go("/quran")),
