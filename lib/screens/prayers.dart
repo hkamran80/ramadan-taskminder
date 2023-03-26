@@ -54,11 +54,11 @@ class _PrayersScreenState extends State<PrayersScreen> {
     if (currentState == true) {
       complete.remove(prayer);
       incomplete.add(prayer);
-      sortPrayers();
     } else {
       incomplete.remove(prayer);
       complete.add(prayer);
     }
+    sortPrayers();
 
     prayers[prayer] = !currentState;
     prayersBox.put(current.getYMD(), prayers);
@@ -69,15 +69,23 @@ class _PrayersScreenState extends State<PrayersScreen> {
     for (var prayer in complete) {
       incomplete.remove(prayer);
     }
+
+    complete = [...allPrayers];
+    for (var prayer in incomplete) {
+      complete.remove(prayer);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     int fardhComplete = complete
         .where(
-          (prayer) => !prayer.contains(
-            "Sunnah",
-          ),
+          (prayer) =>
+              !prayer.contains(
+                "Sunnah",
+              ) &&
+              prayer != "Tahajjud" &&
+              prayer != "Taraweeh",
         )
         .length;
 
