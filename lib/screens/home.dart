@@ -267,7 +267,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           onTap: () => _launchUrl(),
                         ),
                         const SizedBox(
-                          height: 25,
+                          height: 75,
                         ),
                       ],
                     ),
