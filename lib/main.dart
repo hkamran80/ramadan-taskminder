@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ramadan_taskminder/constants.dart';
 import 'package:ramadan_taskminder/screens/prayers.dart';
+import 'package:ramadan_taskminder/screens/settings.dart';
 import 'package:ramadan_taskminder/theme.dart';
 import 'package:ramadan_taskminder/screens/home.dart';
 import 'package:ramadan_taskminder/screens/quran.dart';
@@ -36,6 +37,10 @@ final _router = GoRouter(
     GoRoute(
       path: '/prayers',
       builder: (context, state) => const PrayersScreen(),
+    ),
+    GoRoute(
+      path: '/settings',
+      builder: (context, state) => const SettingsScreen(),
     ),
   ],
 );
@@ -71,11 +76,11 @@ class RamadanTaskminder extends StatelessWidget {
         ),
         textTheme: GoogleFonts.nunitoSansTextTheme(
           const TextTheme(
-            subtitle1: TextStyle(
+            titleMedium: TextStyle(
               color: Colors.white,
               fontSize: 20.0,
             ),
-            subtitle2: TextStyle(
+            titleSmall: TextStyle(
               color: Colors.white70,
               fontSize: 18.0,
             ),
@@ -86,7 +91,6 @@ class RamadanTaskminder extends StatelessWidget {
           selectionColor: primaryDarkColor,
           selectionHandleColor: primaryDarkColor,
         ),
-        toggleableActiveColor: primaryDarkColor,
         primaryColor: Colors.white,
       ),
       themeMode: ThemeMode.system,
