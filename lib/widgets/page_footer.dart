@@ -17,6 +17,7 @@ class PageFooter extends StatelessWidget {
       ["/tasks", LucideIcons.clipboardList],
       ["/quran", LucideIcons.bookOpen],
       ["/prayers", LucideIcons.alignVerticalJustifyEnd],
+      ["/settings", LucideIcons.cog],
     ];
 
     return Center(
@@ -29,7 +30,7 @@ class PageFooter extends StatelessWidget {
                 ? const Color.fromRGBO(0, 0, 0, 0.5)
                 : const Color.fromRGBO(255, 255, 255, 0.5),
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(50, 5, 50, 25),
+              padding: const EdgeInsets.fromLTRB(35, 5, 35, 25),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
