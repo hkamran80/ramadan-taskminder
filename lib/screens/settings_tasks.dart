@@ -30,6 +30,23 @@ class _SettingsTasksScreenState extends State<SettingsTasksScreen> {
         tasksBox.get("allTasks", defaultValue: initialTasks) as List<String>;
   }
 
+  void reorder(int oldindex, int newindex) {
+    setState(
+      () {
+        if (newindex > oldindex) {
+          newindex -= 1;
+        }
+        final items = allTasks.removeAt(oldindex);
+        allTasks.insert(newindex, items);
+        updateTasks();
+      },
+    );
+  }
+
+  void updateTasks() {
+    tasksBox.put("allTasks", allTasks);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -59,6 +76,7 @@ class _SettingsTasksScreenState extends State<SettingsTasksScreen> {
                                   setState(
                                     () {
                                       allTasks.add(task);
+                                      updateTasks();
                                     },
                                   );
                                 },
@@ -78,15 +96,7 @@ class _SettingsTasksScreenState extends State<SettingsTasksScreen> {
                         SizedBox(
                           height: MediaQuery.of(context).size.height - 75,
                           child: ReorderableListView(
-                            onReorder: (int oldindex, int newindex) {
-                              setState(() {
-                                if (newindex > oldindex) {
-                                  newindex -= 1;
-                                }
-                                final items = allTasks.removeAt(oldindex);
-                                allTasks.insert(newindex, items);
-                              });
-                            },
+                            onReorder: reorder,
                             children: [
                               for (final task in allTasks)
                                 Card(
