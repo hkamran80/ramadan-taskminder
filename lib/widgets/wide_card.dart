@@ -6,30 +6,44 @@ class WideCard extends StatelessWidget {
     Key? key,
     required this.content,
     this.textAlign = TextAlign.left,
+    this.trailing,
     this.onTap,
+    this.onLongPress,
   }) : super(key: key);
 
   final String content;
   final TextAlign? textAlign;
+  final Widget? trailing;
   final GestureTapCallback? onTap;
+  final GestureTapCallback? onLongPress;
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width - 40;
+    final textWidget = Text(
+      content,
+      textAlign: textAlign,
+    );
     final widgetContent = Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 17,
         vertical: 15,
       ),
-      child: Text(
-        content,
-        textAlign: textAlign,
-      ),
+      child: trailing == null
+          ? textWidget
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                textWidget,
+                trailing!,
+              ],
+            ),
     );
 
-    if (onTap != null) {
+    if (onTap != null || onLongPress != null) {
       return InkWell(
-        onTap: onTap!,
+        onTap: onTap,
+        onLongPress: onLongPress,
         child: Ink(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),

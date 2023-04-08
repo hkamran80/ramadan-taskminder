@@ -68,6 +68,14 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     }
 
+    Map.from(tasks).forEach(
+      (key, _) {
+        if (!allTasks.contains(key)) {
+          tasks.remove(key);
+        }
+      },
+    );
+
     tasksBox.put(current.getYMD(), tasks);
   }
 
