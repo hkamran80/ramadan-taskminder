@@ -2,7 +2,7 @@
 
 Stay on task for Ramadan!
 
-[![App Store badge](https://13willow.com/assets/badges/appstore.svg)](https://apps.apple.com/app/ramadan-taskminder/id6446471761?itsct=apps_box_badge&itscg=30200)
+[![Download](https://img.shields.io/badge/-download-%23A9C5B8?style=for-the-badge)](https://13willow.com/project/ramadan-taskminder?utm_source=gh)
 
 Ramadan Taskminder allows you to stay on top of your tasks for Ramadan. Keep track
 of your Qur'an reading and other key tasks.
