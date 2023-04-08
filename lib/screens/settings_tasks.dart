@@ -40,9 +40,10 @@ class _SettingsTasksScreenState extends State<SettingsTasksScreen> {
         }
         final items = allTasks.removeAt(oldindex);
         allTasks.insert(newindex, items);
-        updateTasks();
       },
     );
+
+    updateTasks();
   }
 
   void updateTasks() {
@@ -123,9 +124,10 @@ class _SettingsTasksScreenState extends State<SettingsTasksScreen> {
                                   setState(
                                     () {
                                       allTasks.add(task);
-                                      updateTasks();
                                     },
                                   );
+
+                                  updateTasks();
                                 },
                               ),
                             ),
