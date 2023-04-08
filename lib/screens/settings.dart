@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ramadan_taskminder/constants.dart';
 import 'package:ramadan_taskminder/tasks.dart';
@@ -63,7 +64,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               title: "Tasks",
                               subtitle: "Add or edit your tasks",
                               buttonText: "Edit",
-                              onClick: () {},
+                              onClick: () => GoRouter.of(context).push("/settings/tasks"),
                             ),
                             const SizedBox(height: 10),
                             Wrap(

@@ -5,6 +5,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ramadan_taskminder/constants.dart';
 import 'package:ramadan_taskminder/screens/prayers.dart';
 import 'package:ramadan_taskminder/screens/settings.dart';
+import 'package:ramadan_taskminder/screens/settings_tasks.dart';
 import 'package:ramadan_taskminder/theme.dart';
 import 'package:ramadan_taskminder/screens/home.dart';
 import 'package:ramadan_taskminder/screens/quran.dart';
@@ -15,7 +16,7 @@ Future<void> main() async {
   await Hive.openBox("tasks");
   await Hive.openBox("quran");
   await Hive.openBox("prayers");
-  
+
   runApp(const RamadanTaskminder());
 }
 
@@ -41,6 +42,12 @@ final _router = GoRouter(
     GoRoute(
       path: '/settings',
       builder: (context, state) => const SettingsScreen(),
+      routes: [
+        GoRoute(
+          path: "tasks",
+          builder: (context, state) => const SettingsTasksScreen(),
+        )
+      ],
     ),
   ],
 );
