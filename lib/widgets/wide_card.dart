@@ -8,12 +8,14 @@ class WideCard extends StatelessWidget {
     this.textAlign = TextAlign.left,
     this.trailing,
     this.onTap,
+    this.onLongPress,
   }) : super(key: key);
 
   final String content;
   final TextAlign? textAlign;
   final Widget? trailing;
   final GestureTapCallback? onTap;
+  final GestureTapCallback? onLongPress;
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +40,10 @@ class WideCard extends StatelessWidget {
             ),
     );
 
-    if (onTap != null) {
+    if (onTap != null || onLongPress != null) {
       return InkWell(
-        onTap: onTap!,
+        onTap: onTap,
+        onLongPress: onLongPress,
         child: Ink(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
