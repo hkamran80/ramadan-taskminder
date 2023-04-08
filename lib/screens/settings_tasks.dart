@@ -19,6 +19,8 @@ class _SettingsTasksScreenState extends State<SettingsTasksScreen> {
   Box tasksBox = Hive.box("tasks");
   late List<String> allTasks;
 
+  String deletingTask = "";
+
   @override
   void initState() {
     super.initState();
@@ -45,6 +47,51 @@ class _SettingsTasksScreenState extends State<SettingsTasksScreen> {
 
   void updateTasks() {
     tasksBox.put("allTasks", allTasks);
+  }
+
+  void confirmEntryDelete() {
+    if (deletingTask != "") {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text("Confirm Entry Deletion"),
+            content: SingleChildScrollView(
+              child: Wrap(
+                runSpacing: 15,
+                children: [
+                  const Text(
+                      "Are you sure you want to delete the following task?"),
+                  WideCard(
+                    content: deletingTask,
+                  ),
+                ],
+              ),
+            ),
+            actions: [
+              TextButton(
+                child: const Text(
+                  "Delete",
+                  style: TextStyle(
+                    color: destructiveActionColor,
+                  ),
+                ),
+                onPressed: () {
+                  setState(() {
+                    allTasks.remove(deletingTask);
+                  });
+
+                  updateTasks();
+                  deletingTask = "";
+
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   @override
@@ -109,6 +156,10 @@ class _SettingsTasksScreenState extends State<SettingsTasksScreen> {
                                       index: allTasks.indexOf(task),
                                       child: const Icon(Icons.drag_handle),
                                     ),
+                                    onLongPress: () {
+                                      deletingTask = task;
+                                      confirmEntryDelete();
+                                    },
                                   ),
                                 ),
                             ],
