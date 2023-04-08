@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import 'package:ramadan_taskminder/constants.dart';
 import 'package:ramadan_taskminder/theme.dart';
 import 'package:ramadan_taskminder/tasks.dart';
@@ -132,7 +133,7 @@ class _SettingsTasksScreenState extends State<SettingsTasksScreen> {
                               ),
                             ),
                             child: Text(
-                              "Add Task".toUpperCase(),
+                              "ADD TASK",
                               style: TextStyle(
                                 color: getButtonTextColor(context),
                               ),
@@ -156,7 +157,7 @@ class _SettingsTasksScreenState extends State<SettingsTasksScreen> {
                                     content: task,
                                     trailing: ReorderableDragStartListener(
                                       index: allTasks.indexOf(task),
-                                      child: const Icon(Icons.drag_handle),
+                                      child: const Icon(LucideIcons.gripVertical),
                                     ),
                                     onLongPress: () {
                                       deletingTask = task;
