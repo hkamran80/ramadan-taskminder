@@ -17,7 +17,7 @@ class TabBarItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      onPressed: () => GoRouter.of(context).go(location),
+      onPressed: () => GoRouter.of(context).replace(location),
       icon: Icon(icon),
       color: active ? getActiveTabColor(context) : getInactiveTabColor(context),
     );
