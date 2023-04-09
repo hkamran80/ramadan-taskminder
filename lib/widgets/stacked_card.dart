@@ -7,12 +7,14 @@ class StackedCard extends StatelessWidget {
     required this.header,
     required this.title,
     this.fullWidth,
+    this.onTap,
     this.onLongPress,
   }) : super(key: key);
 
   final String header;
   final String title;
   final bool? fullWidth;
+  final GestureTapCallback? onTap;
   final GestureTapCallback? onLongPress;
 
   @override
@@ -43,9 +45,10 @@ class StackedCard extends StatelessWidget {
       ),
     );
 
-    if (onLongPress != null) {
+    if (onTap != null || onLongPress != null) {
       return InkWell(
-        onLongPress: onLongPress!,
+        onTap: onTap,
+        onLongPress: onLongPress,
         child: Ink(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
