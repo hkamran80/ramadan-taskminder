@@ -8,6 +8,7 @@ import 'package:ramadan_taskminder/widgets/page_footer.dart';
 import 'package:ramadan_taskminder/widgets/page_header.dart';
 import 'package:ramadan_taskminder/widgets/section_header.dart';
 import 'package:ramadan_taskminder/widgets/statistic_card.dart';
+import 'package:ramadan_taskminder/widgets/wide_card.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -64,7 +65,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               title: "Tasks",
                               subtitle: "Add or edit your tasks",
                               buttonText: "Edit",
-                              onClick: () => GoRouter.of(context).push("/settings/tasks"),
+                              onClick: () =>
+                                  GoRouter.of(context).push("/settings/tasks"),
                             ),
                             const SizedBox(height: 10),
                             Wrap(
@@ -80,6 +82,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   .toList(),
                             ),
                           ],
+                        ),
+                        const SizedBox(
+                          height: 50,
+                        ),
+                        WideCard(
+                          content: "About $appName",
+                          onTap: () =>
+                              GoRouter.of(context).push("/settings/about"),
                         ),
                         const SizedBox(
                           height: 75,

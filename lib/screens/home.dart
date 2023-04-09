@@ -102,7 +102,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _launchUrl() async {
-    if (!await launchUrl(feedbackUrl)) {
+    if (!await launchUrl(
+      feedbackUrl,
+      mode: LaunchMode.externalApplication,
+    )) {
       throw Exception('Could not launch $feedbackUrl');
     }
   }
