@@ -4,6 +4,7 @@ import 'package:ramadan_taskminder/constants.dart';
 import 'package:ramadan_taskminder/theme.dart';
 import 'package:ramadan_taskminder/widgets/page_footer.dart';
 import 'package:ramadan_taskminder/widgets/page_header.dart';
+import 'package:ramadan_taskminder/widgets/screen_footer.dart';
 import 'package:ramadan_taskminder/widgets/section_header.dart';
 import 'package:ramadan_taskminder/widgets/stacked_card.dart';
 import 'package:ramadan_taskminder/widgets/wide_card.dart';
@@ -124,9 +125,7 @@ class _AboutScreenState extends State<AboutScreen> {
                           textAlign: TextAlign.center,
                           style: TextStyle(fontSize: 12),
                         ),
-                        const SizedBox(
-                          height: 75,
-                        ),
+                        const ScreenFooter(),
                       ],
                     ),
                   ),

@@ -7,6 +7,7 @@ import 'package:ramadan_taskminder/tasks.dart';
 import 'package:ramadan_taskminder/widgets/add_task_modal.dart';
 import 'package:ramadan_taskminder/widgets/page_footer.dart';
 import 'package:ramadan_taskminder/widgets/page_header.dart';
+import 'package:ramadan_taskminder/widgets/screen_footer.dart';
 import 'package:ramadan_taskminder/widgets/wide_card.dart';
 
 class SettingsTasksScreen extends StatefulWidget {
@@ -174,9 +175,7 @@ class _SettingsTasksScreenState extends State<SettingsTasksScreen> {
                             ],
                           ),
                         ),
-                        const SizedBox(
-                          height: 75,
-                        ),
+                        const ScreenFooter(),
                       ],
                     ),
                   ),

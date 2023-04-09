@@ -12,6 +12,7 @@ import 'package:ramadan_taskminder/theme.dart';
 import 'package:ramadan_taskminder/tasks.dart';
 import 'package:ramadan_taskminder/widgets/page_footer.dart';
 import 'package:ramadan_taskminder/widgets/page_header.dart';
+import 'package:ramadan_taskminder/widgets/screen_footer.dart';
 import 'package:ramadan_taskminder/widgets/section_header.dart';
 import 'package:ramadan_taskminder/widgets/statistic_card.dart';
 import 'package:ramadan_taskminder/widgets/wide_card.dart';
@@ -307,9 +308,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           content: "Submit feedback",
                           onTap: () => _launchUrl(),
                         ),
-                        const SizedBox(
-                          height: 75,
-                        ),
+                        const ScreenFooter(),
                       ],
                     ),
                   ),
