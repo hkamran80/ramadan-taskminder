@@ -66,6 +66,7 @@ class _AboutScreenState extends State<AboutScreen> {
                         const PageHeader(
                           header: appName,
                           title: "About",
+                          priorPathName: "Settings",
                         ),
                         const SizedBox(
                           height: 15,

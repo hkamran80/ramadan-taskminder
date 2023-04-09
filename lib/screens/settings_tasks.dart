@@ -117,6 +117,7 @@ class _SettingsTasksScreenState extends State<SettingsTasksScreen> {
                         PageHeader(
                           header: appName,
                           title: "Edit Tasks",
+                          priorPathName: "Settings",
                           rightAlign: TextButton(
                             onPressed: () => showModalBottomSheet(
                               context: context,
@@ -157,7 +158,8 @@ class _SettingsTasksScreenState extends State<SettingsTasksScreen> {
                                     content: task,
                                     trailing: ReorderableDragStartListener(
                                       index: allTasks.indexOf(task),
-                                      child: const Icon(LucideIcons.gripVertical),
+                                      child:
+                                          const Icon(LucideIcons.gripVertical),
                                     ),
                                     onLongPress: () {
                                       deletingTask = task;
