@@ -142,7 +142,10 @@ class _QuranScreenState extends State<QuranScreen> {
 
   void calculateStatistics() {
     ayahsRead = calculateAyahsRead(history);
-    percentageRead = (ayahsRead / totalAyahCount).toStringAsFixed(1);
+    percentageRead = ((ayahsRead / totalAyahCount) * 100).toStringAsFixed(1);
+    if (percentageRead.endsWith(".0")) {
+      percentageRead = percentageRead.split(".")[0];
+    }
   }
 
   @override

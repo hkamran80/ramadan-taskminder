@@ -125,7 +125,11 @@ class _HomeScreenState extends State<HomeScreen> {
     List todaysEntries =
         history.where((entry) => entry[0] == currentDate).toList();
     int ayahsRead = calculateAyahsRead(history);
-    String percentageRead = (ayahsRead / totalAyahCount).toStringAsFixed(1);
+    String percentageRead =
+        ((ayahsRead / totalAyahCount) * 100).toStringAsFixed(1);
+    if (percentageRead.endsWith(".0")) {
+      percentageRead = percentageRead.split(".")[0];
+    }
 
     Iterable completedPrayers = prayers.entries
         .where(
