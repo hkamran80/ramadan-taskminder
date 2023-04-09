@@ -5,5 +5,4 @@ Uri feedbackUrl = Uri.parse(
 );
 
 Uri repositoryUrl = Uri.parse("https://github.com/hkamran80/ramadan-taskminder");
-Uri tosLink = Uri.parse("https://13willow.com/legal/terms");
-Uri privacyPolicyLink = Uri.parse("https://13willow.com/legal/privacy");
+Uri hkamranUrl = Uri.parse("https://hkamran.com");
