@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ramadan_taskminder/constants.dart';
+import 'package:ramadan_taskminder/screens/about.dart';
 import 'package:ramadan_taskminder/screens/prayers.dart';
 import 'package:ramadan_taskminder/screens/settings.dart';
 import 'package:ramadan_taskminder/screens/settings_tasks.dart';
@@ -46,7 +47,11 @@ final _router = GoRouter(
         GoRoute(
           path: "tasks",
           builder: (context, state) => const SettingsTasksScreen(),
-        )
+        ),
+        GoRoute(
+          path: "about",
+          builder: (context, state) => const AboutScreen(),
+        ),
       ],
     ),
   ],
