@@ -118,8 +118,9 @@ class _SettingsTasksScreenState extends State<SettingsTasksScreen> {
                           header: appName,
                           title: "Edit Tasks",
                           priorPathName: "Settings",
+                          hintText: "Drag the handles on each task to rearrange. Long press on a task to delete.",
                           rightAlign: TextButton(
-                            onPressed: () => showModalBottomSheet(
+                            onPressed: () => showModalBottomSheet( 
                               context: context,
                               isScrollControlled: true,
                               builder: (BuildContext context) => AddTaskModal(
