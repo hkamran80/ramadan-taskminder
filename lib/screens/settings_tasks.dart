@@ -121,6 +121,7 @@ class _SettingsTasksScreenState extends State<SettingsTasksScreen> {
                           rightAlign: TextButton(
                             onPressed: () => showModalBottomSheet(
                               context: context,
+                              isScrollControlled: true,
                               builder: (BuildContext context) => AddTaskModal(
                                 addTask: (String task) {
                                   setState(
@@ -158,8 +159,10 @@ class _SettingsTasksScreenState extends State<SettingsTasksScreen> {
                                     content: task,
                                     trailing: ReorderableDragStartListener(
                                       index: allTasks.indexOf(task),
-                                      child:
-                                          const Icon(LucideIcons.gripVertical),
+                                      child: Icon(
+                                        LucideIcons.gripVertical,
+                                        color: getButtonTextColor(context),
+                                      ),
                                     ),
                                     onLongPress: () {
                                       deletingTask = task;
