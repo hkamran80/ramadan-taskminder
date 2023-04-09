@@ -6,6 +6,7 @@ class WideCard extends StatelessWidget {
     Key? key,
     required this.content,
     this.textAlign = TextAlign.left,
+    this.fullWidth,
     this.trailing,
     this.onTap,
     this.onLongPress,
@@ -13,13 +14,17 @@ class WideCard extends StatelessWidget {
 
   final String content;
   final TextAlign? textAlign;
+  final bool? fullWidth;
   final Widget? trailing;
   final GestureTapCallback? onTap;
   final GestureTapCallback? onLongPress;
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width - 40;
+    final baseWidth = MediaQuery.of(context).size.width - 50;
+    final width =
+        fullWidth != null && fullWidth! ? baseWidth + 10 : baseWidth / 2;
+
     final textWidget = Text(
       content,
       textAlign: textAlign,
