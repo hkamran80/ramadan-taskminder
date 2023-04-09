@@ -7,6 +7,7 @@ import 'package:ramadan_taskminder/tasks.dart';
 import 'package:ramadan_taskminder/widgets/add_task_modal.dart';
 import 'package:ramadan_taskminder/widgets/page_footer.dart';
 import 'package:ramadan_taskminder/widgets/page_header.dart';
+import 'package:ramadan_taskminder/widgets/screen_footer.dart';
 import 'package:ramadan_taskminder/widgets/wide_card.dart';
 
 class SettingsTasksScreen extends StatefulWidget {
@@ -118,9 +119,11 @@ class _SettingsTasksScreenState extends State<SettingsTasksScreen> {
                           header: appName,
                           title: "Edit Tasks",
                           priorPathName: "Settings",
+                          hintText: "Drag the handles on each task to rearrange. Long press on a task to delete.",
                           rightAlign: TextButton(
-                            onPressed: () => showModalBottomSheet(
+                            onPressed: () => showModalBottomSheet( 
                               context: context,
+                              isScrollControlled: true,
                               builder: (BuildContext context) => AddTaskModal(
                                 addTask: (String task) {
                                   setState(
@@ -158,8 +161,10 @@ class _SettingsTasksScreenState extends State<SettingsTasksScreen> {
                                     content: task,
                                     trailing: ReorderableDragStartListener(
                                       index: allTasks.indexOf(task),
-                                      child:
-                                          const Icon(LucideIcons.gripVertical),
+                                      child: Icon(
+                                        LucideIcons.gripVertical,
+                                        color: getButtonTextColor(context),
+                                      ),
                                     ),
                                     onLongPress: () {
                                       deletingTask = task;
@@ -170,9 +175,7 @@ class _SettingsTasksScreenState extends State<SettingsTasksScreen> {
                             ],
                           ),
                         ),
-                        const SizedBox(
-                          height: 75,
-                        ),
+                        const ScreenFooter(),
                       ],
                     ),
                   ),

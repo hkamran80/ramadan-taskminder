@@ -23,12 +23,29 @@ class QuranAdditionRow extends StatefulWidget {
 
 class _QuranAdditionRowState extends State<QuranAdditionRow> {
   final surahNames = surahs.map((surah) => surah["name"].toString()).toList();
+  final controller = TextEditingController();
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final ayahsCount = int.tryParse(widget.surahIndex != -1
         ? surahs[widget.surahIndex]["ayahs"].toString()
         : "0");
+
+    controller.addListener(
+      () {
+        String value = controller.text.trim();
+        int? ayah = int.tryParse(value.replaceAll(RegExp(r"[^0-9]"), ""));
+        if (ayah != null && ayah > 0 && ayah <= ayahsCount!) {
+          widget.setAyah(ayah);
+        }
+      },
+    );
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -87,22 +104,13 @@ class _QuranAdditionRowState extends State<QuranAdditionRow> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Enter the ayah (1-$ayahsCount). Due to a bug with the system, you may have to double-tap the text field before it will let you type.",
+                              "Enter the ayah (1-$ayahsCount)",
                               textAlign: TextAlign.left,
                             ),
                             const SizedBox(height: 10),
                             TextField(
-                              onChanged: (value) {
-                                int? ayah = int.tryParse(
-                                    value.replaceAll(RegExp(r"[^0-9]"), ""));
-                                if (ayah != null &&
-                                    ayah > 0 &&
-                                    ayah <= ayahsCount!) {
-                                  widget.setAyah(ayah);
-                                }
-                              },
                               onEditingComplete: () => Navigator.pop(context),
-                              controller: TextEditingController(),
+                              controller: controller,
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
                                 labelText: "Ayah",

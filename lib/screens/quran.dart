@@ -7,6 +7,7 @@ import 'package:ramadan_taskminder/quran.dart';
 import 'package:ramadan_taskminder/widgets/page_footer.dart';
 import 'package:ramadan_taskminder/widgets/page_header.dart';
 import 'package:ramadan_taskminder/widgets/quran_addition_row.dart';
+import 'package:ramadan_taskminder/widgets/screen_footer.dart';
 import 'package:ramadan_taskminder/widgets/section_header.dart';
 import 'package:ramadan_taskminder/widgets/stacked_card.dart';
 import 'package:ramadan_taskminder/widgets/wide_card.dart';
@@ -332,9 +333,7 @@ class _QuranScreenState extends State<QuranScreen> {
                                 : const Text("Log some reading first!"),
                           ],
                         ),
-                        const SizedBox(
-                          height: 75,
-                        ),
+                        const ScreenFooter(),
                       ],
                     ),
                   ),
