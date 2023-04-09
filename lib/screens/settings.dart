@@ -87,7 +87,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           height: 50,
                         ),
                         WideCard(
-                          content: "About Ramadan Taskminder",
+                          content: "About $appName",
                           onTap: () =>
                               GoRouter.of(context).push("/settings/about"),
                         ),
