@@ -58,7 +58,6 @@ class _AddTaskModalState extends State<AddTaskModal> {
           const SizedBox(height: 10),
           TextField(
             controller: controller,
-            keyboardType: TextInputType.number,
             decoration: InputDecoration(
               labelText: "Task",
               focusColor: getPrimaryColor(context),
@@ -80,7 +79,7 @@ class _AddTaskModalState extends State<AddTaskModal> {
                 )
               : const SizedBox(),
           const SizedBox(
-            height: 45,
+            height: 15,
           )
         ],
       ),
