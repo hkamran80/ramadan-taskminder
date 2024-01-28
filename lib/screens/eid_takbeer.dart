@@ -25,7 +25,7 @@ class _EidTakbeerScreenState extends State<EidTakbeerScreen> {
     }
   }
 
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void dispose() {
@@ -77,9 +77,9 @@ class _EidTakbeerScreenState extends State<EidTakbeerScreen> {
                         const SizedBox(
                           height: 25,
                         ),
-                        Wrap(
+                        const Wrap(
                           runSpacing: 15,
-                          children: const [
+                          children: [
                             TakbeerSegment(
                               arabic: "اللّهُ أكبر اللّهُ أكبر",
                               transliteration: "Allahu Akbar, Allahu Akbar",
