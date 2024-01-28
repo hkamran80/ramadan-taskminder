@@ -209,7 +209,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   "${tasks.length - incompleteTasks.length}/${tasks.length} completed",
                               buttonText: "View All",
                               onClick: (() =>
-                                  GoRouter.of(context).go("/tasks")),
+                                  GoRouter.of(context).push("/tasks")),
                             ),
                             const SizedBox(height: 15),
                             incompleteTasks.isNotEmpty
@@ -244,7 +244,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   : "${calculateAyahsRead(todaysEntries)} ayahs read today",
                               buttonText: "Track",
                               onClick: (() =>
-                                  GoRouter.of(context).go("/quran")),
+                                  GoRouter.of(context).push("/quran")),
                             ),
                             const SizedBox(height: 15),
                             history.isNotEmpty
@@ -279,7 +279,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   : "Keep up the good work!",
                               buttonText: "View All",
                               onClick: (() =>
-                                  GoRouter.of(context).go("/prayers")),
+                                  GoRouter.of(context).push("/prayers")),
                             ),
                             const SizedBox(height: 15),
                             completedPrayers.isNotEmpty
@@ -306,7 +306,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         WideCard(
                           content: "Eid Takbeers",
-                          onTap: () => GoRouter.of(context).go("/eid-takbeer"),
+                          onTap: () => GoRouter.of(context).push("/eid-takbeer"),
                         ),
                         const SizedBox(height: 15),
                         WideCard(
