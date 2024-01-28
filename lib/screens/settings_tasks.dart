@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:ramadan_taskminder/constants.dart';
 import 'package:ramadan_taskminder/theme.dart';
 import 'package:ramadan_taskminder/tasks.dart';
