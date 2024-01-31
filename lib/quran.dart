@@ -253,19 +253,44 @@ int calculateAyahsRead(List history) {
 
   Iterable entries = history.map((entry) => entry[1]);
   for (var entry in entries) {
-    List<int> start = entry[0].toString().split("-").map(int.parse).toList();
-    List<int> end = entry[1].toString().split("-").map(int.parse).toList();
-
-    if (start[0] - 1 == end[0] - 1) {
-      ayahs += end[1] - start[1];
-    } else {
-      ayahs += surahs
-              .sublist(start[0] - 1, end[0] - 1)
-              .map((surah) => int.parse(surah["ayahs"].toString()))
-              .reduce((p, c) => p + c) +
-          end[1];
-    }
+    ayahs += calculateEntryAyahs(entry as List<String>);
   }
 
   return ayahs;
+}
+
+int calculateEntryAyahs(List<String> entry) {
+  final start = entry[0].split("-").map(int.parse).toList();
+  final end = entry[1].split("-").map(int.parse).toList();
+
+  final startSurah = start[0],
+      startAyah = start[1],
+      endSurah = end[0],
+      endAyah = end[1];
+
+  if (startSurah == endSurah) {
+    return endAyah - startAyah;
+  }
+
+  if (startSurah < endSurah) {
+    int ayahs = 0;
+
+    final surahIndexes = startSurah.upTo(endSurah);
+    for (var index = 0; index < surahIndexes.length; index++) {
+      if (index == 0) {
+        // First surah
+        ayahs += int.parse(surahs[startSurah]["ayahs"].toString()) - startAyah;
+      } else if (index == surahIndexes.length - 1) {
+        // Last surah
+        ayahs += endAyah;
+      } else {
+        // Other surahs
+        ayahs += int.parse(surahs[surahIndexes[index]]["ayahs"].toString());
+      }
+    }
+
+    return ayahs;
+  }
+
+  return 0;
 }
