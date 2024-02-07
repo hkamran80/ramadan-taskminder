@@ -6,6 +6,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:ramadan_taskminder/constants.dart';
 import 'package:ramadan_taskminder/extensions/date.dart';
+import 'package:ramadan_taskminder/extensions/int.dart';
 import 'package:ramadan_taskminder/prayers.dart';
 import 'package:ramadan_taskminder/quran.dart';
 import 'package:ramadan_taskminder/theme.dart';
@@ -41,18 +42,58 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    firstRun();
+
+    startup();
     initializeTasks();
     initializeHistory();
     initializePrayers();
   }
 
-  void firstRun() async {
+  void startup() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     bool firstRun = preferences.getBool("firstRun") ?? true;
     if (firstRun) {
       tasksBox.put("allTasks", initialTasks);
       preferences.setBool("firstRun", false);
+    }
+
+    int migrationIndex = preferences.getInt("migrationIndex") ?? -1;
+    // print("Migration Index (setting): $migrationIndex, migration index (app): $currentMigrationIndex");
+    if (migrationIndex < currentMigrationIndex) {
+      // print("Running migrations...");
+      final migrations = migrationIndex.upTo(currentMigrationIndex).skip(1);
+      for (final migration in migrations) {
+        // print("Running migration #$migration...");
+        migrate(migration);
+      }
+    }
+  }
+
+  void migrate(int migrationIndex) {
+    if (migrationIndex == 0) {
+      List? quranHistory = quran.get("history");
+      if (quranHistory != null) {
+        List newHistory = quranHistory.map((entry) {
+          if (entry[0].runtimeType == List) {
+            return entry;
+          }
+
+          final gregorianDate = DateTime.parse(entry[0].toString());
+          final hijriDate = HijriCalendar.fromDate(gregorianDate);
+
+          return [
+            [
+              entry[0],
+              "${hijriDate.hYear}-${hijriDate.hMonth}-${hijriDate.hDay}"
+            ],
+            entry[1]
+          ];
+        }).toList();
+
+        // print("Old: $quranHistory");
+        // print("New: $newHistory");
+        quran.put("history", newHistory);
+      }
     }
   }
 
@@ -306,7 +347,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         WideCard(
                           content: "Eid Takbeers",
-                          onTap: () => GoRouter.of(context).push("/eid-takbeer"),
+                          onTap: () =>
+                              GoRouter.of(context).push("/eid-takbeer"),
                         ),
                         const SizedBox(height: 15),
                         WideCard(
