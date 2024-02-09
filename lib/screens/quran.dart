@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hijri/hijri_calendar.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:ramadan_taskminder/date.dart';
+import 'package:ramadan_taskminder/extensions/date.dart';
 import 'package:ramadan_taskminder/theme.dart';
 import 'package:ramadan_taskminder/quran.dart';
 import 'package:ramadan_taskminder/widgets/page_footer.dart';
@@ -53,8 +55,8 @@ class _QuranScreenState extends State<QuranScreen> {
     } else {
       history = quranHistory;
       history.sort(
-        (a, b) => DateTime.parse(a[0].toString())
-            .compareTo(DateTime.parse(b[0].toString())),
+        (a, b) => DateTime.parse(a[0][0].toString())
+            .compareTo(DateTime.parse(b[0][0].toString())),
       );
     }
   }
@@ -304,9 +306,9 @@ class _QuranScreenState extends State<QuranScreen> {
                                     children: history.reversed.map(
                                       (entry) {
                                         final date =
-                                            DateTime.parse(entry[0].toString());
+                                            DateTime.parse(entry[0][0].toString());
                                         final hijriDate =
-                                            HijriCalendar.fromDate(date);
+                                            jHijriFromIso8601Style(entry[0][1]);
 
                                         final starting =
                                             (entry[1] as List<String>)[0]
@@ -317,7 +319,7 @@ class _QuranScreenState extends State<QuranScreen> {
 
                                         return StackedCard(
                                           header:
-                                              "${DateFormat.MMMMd().format(date)} / ${hijriDate.longMonthName} ${hijriDate.hDay}",
+                                              "${DateFormat.MMMMd().format(date)} / ${hijriDate.hijriMonth()} ${hijriDate.day}",
                                           title:
                                               "${surahs[int.parse(starting[0]) - 1]["name"].toString()} ${starting[1]} - ${surahs[int.parse(ending[0]) - 1]["name"].toString()} ${ending[1]}",
                                           fullWidth: true,
