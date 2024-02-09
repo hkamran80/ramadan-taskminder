@@ -120,7 +120,7 @@ class _AboutScreenState extends State<AboutScreen> {
                         ),
                         const SizedBox(height: 10),
                         const Text(
-                          "Copyright © 2023 Thirteenth Willow. All rights reserved.",
+                          "Copyright © 2023-2024 Thirteenth Willow. All rights reserved.",
                           textAlign: TextAlign.center,
                           style: TextStyle(fontSize: 12),
                         ),
