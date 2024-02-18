@@ -263,9 +263,9 @@ int calculateEntryAyahs(List<String> entry) {
   final start = entry[0].split("-").map(int.parse).toList();
   final end = entry[1].split("-").map(int.parse).toList();
 
-  final startSurah = start[0],
+  final startSurah = start[0] - 1,
       startAyah = start[1],
-      endSurah = end[0],
+      endSurah = end[0] - 1,
       endAyah = end[1];
 
   if (startSurah == endSurah) {
