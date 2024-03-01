@@ -258,7 +258,7 @@ class _DataHandlingRowState extends State<DataHandlingRow> {
                 ),
                 Platform.isIOS
                     ? const Text(
-                        "You may receive a request for notifications. This is used to reopen the app.",
+                        "You may receive a request for notifications. Please approve it, as they are used to reopen the app.",
                         style: TextStyle(fontSize: 16),
                       )
                     : const Spacer(),
