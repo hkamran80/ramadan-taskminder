@@ -35,3 +35,10 @@ Future<void> importHiveBox<T>(String boxName, String backupPath) async {
     File(backupPath).copy(boxPath!);
   } finally {}
 }
+
+Future<String> generateHiveBoxChecksum(String boxName) async {
+  final box = await Hive.openBox(boxName);
+  final boxPath = box.path;
+
+  return await calculateFileChecksum(boxPath!);
+}

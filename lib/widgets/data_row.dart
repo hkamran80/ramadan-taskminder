@@ -142,11 +142,11 @@ class _DataHandlingRowState extends State<DataHandlingRow> {
     }
 
     if (requiredFilesCount == requiredFiles.length) {
-      print("Required files are present.");
+      // print("Required files are present.");
     } else {
-      print(
-        "File does not contain all required files — $requiredFilesCount, should be ${requiredFiles.length}",
-      );
+      // print(
+      //   "File does not contain all required files — $requiredFilesCount, should be ${requiredFiles.length}",
+      // );
       importNotice(
         false,
         "This is an invalid import file. It is missing some required files. If this file was generated with Ramadan Taskminder and not modified, please upload a copy via the feedback form.",
@@ -156,22 +156,28 @@ class _DataHandlingRowState extends State<DataHandlingRow> {
 
     // Validating Hive files...
     int equalChecksums = 0;
+    int identicalChecksums = 0;
     for (final box in boxes) {
       String checksum =
           await calculateFileChecksum("$baseImportPath/$box.hive");
+      String existingChecksum = await generateHiveBoxChecksum(box);
 
       final checksumFile = File("$baseImportPath/$box.sha256");
       final checksumFileString = await checksumFile.readAsString();
 
-      if (checksum == checksumFileString) equalChecksums++;
+      // print("$checksum, $checksumFileString, $existingChecksum");
+      if (checksum == checksumFileString) {
+        equalChecksums++;
+        if (checksum == existingChecksum) identicalChecksums++;
+      }
     }
 
     if (equalChecksums == boxes.length) {
-      print("Checksums check out.");
+      // print("Checksums check out.");
     } else {
-      print(
-        "Checksums do not check out — $equalChecksums, should be ${boxes.length}",
-      );
+      // print(
+      //   "Checksums do not check out — $equalChecksums, should be ${boxes.length}",
+      // );
       importNotice(
         false,
         "The database files are invalid. A checksum mismatch was detected. If this file was generated with Ramadan Taskminder and not modified, please upload a copy via the feedback form.",
@@ -179,7 +185,16 @@ class _DataHandlingRowState extends State<DataHandlingRow> {
       return;
     }
 
-    confirmImport();
+    if (identicalChecksums != boxes.length) {
+      // print("Different checksums, continuing to import...");
+      confirmImport();
+    } else {
+      // print("Identical checksums, aborting import.");
+      importNotice(
+        true,
+        "This import was cancelled because the import databases are the same as the current databases.",
+      );
+    }
   }
 
   Future<void> importBoxes() async {
@@ -193,7 +208,7 @@ class _DataHandlingRowState extends State<DataHandlingRow> {
       await importHiveBox(box, "$baseImportPath/$box.hive");
     }
 
-    print("Import complete!");
+    // print("Import complete!");
     relaunchDialog();
   }
 
