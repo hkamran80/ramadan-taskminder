@@ -1,5 +1,6 @@
 final List<String> allPrayers = [
   "Tahajjud",
+  "Qiyam",
   "Fajr",
   "Fajr (Sunnah)",
   "Dhuhr",
