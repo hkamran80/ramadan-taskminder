@@ -131,6 +131,8 @@ class _QuranScreenState extends State<QuranScreen> {
                   quran.put("history", history);
                   deletingHistoryEntry = -1;
 
+                  calculateStatistics();
+
                   Navigator.of(context).pop();
                 },
               ),
