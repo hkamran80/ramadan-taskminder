@@ -5,6 +5,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:ramadan_taskminder/constants.dart';
 import 'package:ramadan_taskminder/tasks.dart';
 import 'package:ramadan_taskminder/theme.dart';
+import 'package:ramadan_taskminder/widgets/data_row.dart';
 import 'package:ramadan_taskminder/widgets/page_footer.dart';
 import 'package:ramadan_taskminder/widgets/page_header.dart';
 import 'package:ramadan_taskminder/widgets/screen_footer.dart';
@@ -109,6 +110,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   .toList(),
                             ),
                           ],
+                        ),
+                        const SizedBox(
+                          height: 25,
+                        ),
+                        DataHandlingRow(
+                          version: "$version ($buildNumber)",
                         ),
                         const SizedBox(
                           height: 25,
