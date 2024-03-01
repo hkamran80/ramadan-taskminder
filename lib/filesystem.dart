@@ -22,9 +22,16 @@ Future<void> exportHiveBox<T>(String boxName, String backupPath) async {
   final box = await Hive.openBox(boxName);
   final boxPath = box.path;
 
-  // print(boxPath);
-
   try {
     await File(boxPath!).copy("$backupPath/export-$boxName.hive");
+  } finally {}
+}
+
+Future<void> importHiveBox<T>(String boxName, String backupPath) async {
+  final box = await Hive.openBox<T>(boxName);
+  final boxPath = box.path;
+
+  try {
+    File(backupPath).copy(boxPath!);
   } finally {}
 }

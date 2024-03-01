@@ -114,7 +114,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         const SizedBox(
                           height: 25,
                         ),
-                        const DataHandlingRow(),
+                        DataHandlingRow(
+                          version: "$version ($buildNumber)",
+                        ),
                         const SizedBox(
                           height: 25,
                         ),
