@@ -145,7 +145,12 @@ class _DataHandlingRowState extends State<DataHandlingRow> {
       print("Required files are present.");
     } else {
       print(
-          "File does not contain all required files — $requiredFilesCount, should be ${requiredFiles.length}");
+        "File does not contain all required files — $requiredFilesCount, should be ${requiredFiles.length}",
+      );
+      importNotice(
+        false,
+        "This is an invalid import file. It is missing some required files. If this file was generated with Ramadan Taskminder and not modified, please upload a copy via the feedback form.",
+      );
       return;
     }
 
@@ -165,7 +170,12 @@ class _DataHandlingRowState extends State<DataHandlingRow> {
       print("Checksums check out.");
     } else {
       print(
-          "Checksums do not check out — $equalChecksums, should be ${boxes.length}");
+        "Checksums do not check out — $equalChecksums, should be ${boxes.length}",
+      );
+      importNotice(
+        false,
+        "The database files are invalid. A checksum mismatch was detected. If this file was generated with Ramadan Taskminder and not modified, please upload a copy via the feedback form.",
+      );
       return;
     }
 
@@ -250,6 +260,34 @@ class _DataHandlingRowState extends State<DataHandlingRow> {
               ),
               onPressed: () {
                 Restart.restartApp();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void importNotice(bool success, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Import ${success ? "Note" : "Failed"}"),
+          content: Text(
+            message,
+            style: const TextStyle(fontSize: 16),
+          ),
+          actions: [
+            TextButton(
+              child: Text(
+                "Ok",
+                style: TextStyle(
+                  color: isDark(context) ? primaryLightColor : primaryDarkColor,
+                ),
+              ),
+              onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
