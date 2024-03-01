@@ -46,6 +46,7 @@ dependencies:
     flutter_file_dialog: ^3.0.2
     archive: ^3.4.10
     crypto: ^3.0.3
+    restart_app: ^1.2.1
 
 dev_dependencies:
     flutter_test:

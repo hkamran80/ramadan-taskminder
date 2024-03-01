@@ -9,6 +9,7 @@ import 'package:ramadan_taskminder/filesystem.dart';
 import 'package:ramadan_taskminder/theme.dart';
 import 'package:ramadan_taskminder/widgets/section_header.dart';
 import 'package:ramadan_taskminder/widgets/wide_card.dart';
+import 'package:restart_app/restart_app.dart';
 
 class DataHandlingRow extends StatefulWidget {
   const DataHandlingRow({
@@ -89,7 +90,7 @@ class _DataHandlingRowState extends State<DataHandlingRow> {
     await metadataFile.delete();
   }
 
-  Future<void> importBoxes() async {
+  Future<void> validateImport() async {
     final exportDirectory = await localPath;
     final baseImportPath = "$exportDirectory/import";
     final requiredFiles = [
@@ -116,11 +117,6 @@ class _DataHandlingRowState extends State<DataHandlingRow> {
       print("PlatformException :: $error");
       return;
     }
-
-    // TODO: Load the file from `filePath`, then extract the contents of the ZIP. Validate the checksums,
-    // then confirm with the user that this is the data they want to import (maybe move the confirmation
-    // step here?), then replace the boxes. Need to figure out a way to make sure the boxes are reopened
-    // for use in the other pages.
 
     if (filePath == null) return;
 
@@ -173,14 +169,22 @@ class _DataHandlingRowState extends State<DataHandlingRow> {
       return;
     }
 
+    confirmImport();
+  }
+
+  Future<void> importBoxes() async {
+    final exportDirectory = await localPath;
+    final baseImportPath = "$exportDirectory/import";
+
     // Importing
     for (final box in boxes) {
       // print("Importing $box...");
       // Copy file
       await importHiveBox(box, "$baseImportPath/$box.hive");
     }
-    
+
     print("Import complete!");
+    relaunchDialog();
   }
 
   void confirmImport() {
@@ -212,6 +216,49 @@ class _DataHandlingRowState extends State<DataHandlingRow> {
     );
   }
 
+  void relaunchDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Import Complete"),
+          content: SingleChildScrollView(
+            child: Wrap(
+              runSpacing: 15,
+              children: [
+                const Text(
+                  "The import of your data is complete! Please relaunch the app to load your data.",
+                  style: TextStyle(fontSize: 16),
+                ),
+                Platform.isIOS
+                    ? const Text(
+                        "You may receive a request for notifications. This is used to reopen the app.",
+                        style: TextStyle(fontSize: 16),
+                      )
+                    : const Spacer(),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              child: Text(
+                "Relaunch",
+                style: TextStyle(
+                  color: isDark(context) ? primaryLightColor : primaryDarkColor,
+                ),
+              ),
+              onPressed: () {
+                Restart.restartApp();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -226,7 +273,7 @@ class _DataHandlingRowState extends State<DataHandlingRow> {
             WideCard(
               content: "Import",
               halfWidth: true,
-              onTap: () => confirmImport(),
+              onTap: () => validateImport(),
             ),
             WideCard(
               content: "Export",
