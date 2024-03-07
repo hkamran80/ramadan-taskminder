@@ -17,6 +17,7 @@ Future<void> main() async {
   await Hive.openBox("tasks");
   await Hive.openBox("quran");
   await Hive.openBox("prayers");
+  await Hive.openBox("fasting");
 
   runApp(const RamadanTaskminder());
 }
