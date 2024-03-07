@@ -215,11 +215,16 @@ class _HomeScreenState extends State<HomeScreen> {
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const SectionHeader(
+                            SectionHeader(
                               title: "Fasting",
                               buttonText: "Track",
+                              subtitle: fastingBox.isEmpty
+                                  ? "You haven't logged any fasts yet."
+                                  : null,
+                              onClick: (() =>
+                                  GoRouter.of(context).push("/fasting")),
                             ),
-                            const SizedBox(height: 10),
+                            const SizedBox(height: 5),
                             fastingBox.isNotEmpty
                                 ? Wrap(
                                     spacing: 10,
@@ -233,9 +238,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ),
                                     ],
                                   )
-                                : const Text(
-                                    "You haven't logged any fasts yet.",
-                                  ),
+                                : const SizedBox(),
                           ],
                         ),
 
