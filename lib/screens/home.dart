@@ -33,10 +33,12 @@ class _HomeScreenState extends State<HomeScreen> {
   Box tasksBox = Hive.box("tasks");
   Box prayersBox = Hive.box("prayers");
   Box quran = Hive.box("quran");
+  Box fastingBox = Hive.box("fasting");
 
   late List<String> allTasks;
   late Map<String, bool> tasks;
   late Map<String, bool> prayers;
+  late Map<String, bool> fasts;
 
   @override
   void initState() {
@@ -113,6 +115,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final String currentDate = DateTime.now().toIso8601String().split("T")[0];
+
+    // Fasting
+    int fastsCompleted = fastingBox.values.where((fast) => fast == true).length;
+    int fastsMissing = fastingBox.length - fastsCompleted;
+
+    // Tasks
     List<MapEntry<String, bool>> incompleteTasks = tasks.entries
         .where(
           (task) => task.value == false,
@@ -124,7 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
     );
 
-    String currentDate = DateTime.now().toIso8601String().split("T")[0];
+    // Qur'an
     List history = quran.get("history");
     List todaysEntries =
         history.where((entry) => entry[0] == currentDate).toList();
@@ -135,6 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
       percentageRead = percentageRead.split(".")[0];
     }
 
+    // Prayers
     Iterable completedPrayers = prayers.entries
         .where(
           (prayer) => prayer.value == true,
@@ -196,8 +206,45 @@ class _HomeScreenState extends State<HomeScreen> {
                             ],
                           ),
                         ),
+
+                        // Fasting
                         const SizedBox(
                           height: 15,
+                        ),
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SectionHeader(
+                              title: "Fasting",
+                              buttonText: "Track",
+                              subtitle: fastingBox.isEmpty
+                                  ? "You haven't logged any fasts yet."
+                                  : null,
+                              onClick: (() =>
+                                  GoRouter.of(context).push("/fasting")),
+                            ),
+                            const SizedBox(height: 5),
+                            fastingBox.isNotEmpty
+                                ? Wrap(
+                                    spacing: 10,
+                                    runSpacing: 10,
+                                    children: [
+                                      Statistic(
+                                        statistic: "$fastsCompleted completed",
+                                      ),
+                                      Statistic(
+                                        statistic: "$fastsMissing missing",
+                                      ),
+                                    ],
+                                  )
+                                : const SizedBox(),
+                          ],
+                        ),
+
+                        // Tasks
+                        const SizedBox(
+                          height: 25,
                         ),
                         Column(
                           mainAxisSize: MainAxisSize.min,
@@ -230,6 +277,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                           ],
                         ),
+
+                        // Qur'an
                         const SizedBox(
                           height: 25,
                         ),
@@ -265,6 +314,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                           ],
                         ),
+
+                        // Prayers
                         const SizedBox(
                           height: 25,
                         ),

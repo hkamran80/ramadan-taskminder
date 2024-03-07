@@ -22,6 +22,9 @@ bool isDark(BuildContext context) =>
 Color getPrimaryColor(BuildContext context) =>
     isDark(context) ? primaryDarkColor : primaryLightColor;
 
+Color getInversePrimaryColor(BuildContext context) =>
+    isDark(context) ? primaryLightColor : primaryDarkColor;
+
 Color getBackgroundColor(BuildContext context) =>
     isDark(context) ? Colors.black : backgroundColor;
 
