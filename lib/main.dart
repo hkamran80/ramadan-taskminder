@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ramadan_taskminder/constants.dart';
 import 'package:ramadan_taskminder/screens/eid_takbeer.dart';
+import 'package:ramadan_taskminder/screens/fasting.dart';
 import 'package:ramadan_taskminder/screens/prayers.dart';
 import 'package:ramadan_taskminder/screens/settings.dart';
 import 'package:ramadan_taskminder/screens/settings_tasks.dart';
@@ -32,6 +33,10 @@ final _router = GoRouter(
     GoRoute(
       path: '/tasks',
       builder: (context, state) => const TasksScreen(),
+    ),
+    GoRoute(
+      path: '/fasting',
+      builder: (context, state) => const FastingScreen(),
     ),
     GoRoute(
       path: '/quran',
@@ -67,9 +72,9 @@ class RamadanTaskminder extends StatelessWidget {
     return MaterialApp.router(
       title: appName,
       theme: ThemeData(
+        useMaterial3: true,
         primaryColor: getPrimaryColor(context),
         scaffoldBackgroundColor: backgroundColor,
-        useMaterial3: true,
         textTheme: GoogleFonts.mPlus1pTextTheme(),
       ),
       darkTheme: ThemeData(
@@ -77,9 +82,11 @@ class RamadanTaskminder extends StatelessWidget {
         brightness: Brightness.dark,
         scaffoldBackgroundColor: Colors.black,
         colorScheme: const ColorScheme.dark(
-          primary: Colors.black,
-          onPrimary: Colors.black,
-          secondary: primaryDarkColor,
+          primary: primaryDarkColor,
+          onPrimary: Colors.white,
+          surface: Colors.black,
+          onSurface: Colors.white,
+          secondary: primaryLightColor,
         ),
         cardTheme: const CardTheme(
           color: Colors.black87,
@@ -97,6 +104,11 @@ class RamadanTaskminder extends StatelessWidget {
               color: Colors.white70,
               fontSize: 18.0,
             ),
+          ),
+        ),
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(
+            foregroundColor: buttonTextDarkColor,
           ),
         ),
         textSelectionTheme: const TextSelectionThemeData(
