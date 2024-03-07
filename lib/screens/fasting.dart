@@ -100,6 +100,8 @@ class _FastingScreenState extends State<FastingScreen> {
     }
   }
 
+  // TODO: Automatically add missing fasts during Ramadan
+
   @override
   Widget build(BuildContext context) {
     // String currentDate = DateTime.now().toIso8601String().split("T")[0];

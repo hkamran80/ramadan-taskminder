@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:ramadan_taskminder/theme.dart';
 import 'package:ramadan_taskminder/widgets/stacked_card.dart';
 
 class FastAdditionRow extends StatefulWidget {
