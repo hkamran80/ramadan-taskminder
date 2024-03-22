@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hijri/hijri_calendar.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:jhijri/jHijri.dart';
@@ -93,8 +92,8 @@ class _QuranScreenState extends State<QuranScreen> {
         context: context,
         builder: (BuildContext context) {
           final entry = history[deletingHistoryEntry];
-          final date = DateTime.parse(entry[0].toString());
-          final hijriDate = HijriCalendar.fromDate(date);
+          final date = DateTime.parse(entry[0][0].toString());
+          final hijriDate = jHijriFromIso8601Style(entry[0][1]);
 
           final starting = (entry[1] as List<String>)[0].split("-");
           final ending = (entry[1] as List<String>)[1].split("-");
@@ -109,7 +108,7 @@ class _QuranScreenState extends State<QuranScreen> {
                       "Are you sure you want to delete the following entry?"),
                   StackedCard(
                     header:
-                        "${DateFormat.MMMMd().format(date)} / ${hijriDate.longMonthName} ${hijriDate.hDay}",
+                        "${DateFormat.MMMMd().format(date)} / ${hijriDate.hijriMonth()} ${hijriDate.day}",
                     title:
                         "${surahs[int.parse(starting[0]) - 1]["name"].toString()} ${starting[1]} - ${surahs[int.parse(ending[0]) - 1]["name"].toString()} ${ending[1]}",
                     fullWidth: true,

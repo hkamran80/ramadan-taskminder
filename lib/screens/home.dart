@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hijri/hijri_calendar.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:jhijri/jHijri.dart';
 import 'package:ramadan_taskminder/constants.dart';
-import 'package:ramadan_taskminder/date.dart';
 import 'package:ramadan_taskminder/extensions/date.dart';
 import 'package:ramadan_taskminder/extensions/int.dart';
 import 'package:ramadan_taskminder/prayers.dart';
@@ -29,22 +28,24 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  DateTime current = DateTime.now();
-  HijriCalendar hijriCurrent = HijriCalendar.now();
-
   Box tasksBox = Hive.box("tasks");
   Box prayersBox = Hive.box("prayers");
   Box quran = Hive.box("quran");
+  Box settingsBox = Hive.box("settings");
 
   late List<String> allTasks;
   late Map<String, bool> tasks;
   late Map<String, bool> prayers;
+
+  DateTime current = DateTime.now();
+  late JHijri hijriCurrent;
 
   @override
   void initState() {
     super.initState();
 
     startup();
+    initializeSettings();
     initializeTasks();
     initializeHistory();
     initializePrayers();
@@ -75,15 +76,16 @@ class _HomeScreenState extends State<HomeScreen> {
       List? quranHistory = quran.get("history");
       if (quranHistory != null) {
         List newHistory = quranHistory.map((entry) {
-          if (entry[0].runtimeType == List) {
+          if (entry[0].runtimeType == List<String>) {
             return entry;
           }
 
           final gregorianDate = DateTime.parse(entry[0].toString());
-          final hijriDate = HijriCalendar.fromDate(gregorianDate);
+          final hijriDate =
+              JHijri(fDate: gregorianDate, fDisplay: DisplayFormat.YYYYMMDD);
 
           return [
-            [entry[0], hijriDate.toIso8601Style()],
+            [entry[0], hijriDate.fullDate],
             entry[1]
           ];
         }).toList();
@@ -93,6 +95,15 @@ class _HomeScreenState extends State<HomeScreen> {
         quran.put("history", newHistory);
       }
     }
+  }
+
+  void initializeSettings() {
+    hijriCurrent = JHijri(
+      fDate: DateTime.now().offset(
+        settingsBox.get("dateOffset", defaultValue: 0),
+      ),
+      fDisplay: DisplayFormat.YYYYMMDD,
+    );
   }
 
   void initializeTasks() {
@@ -123,26 +134,6 @@ class _HomeScreenState extends State<HomeScreen> {
     List? quranHistory = quran.get("history");
     if (quranHistory == null) {
       quran.put("history", []);
-    } else {
-      // print(HijriCalendar.fromDate(
-      //     DateTime.parse((quran.get("history")[0][0][0]))));
-      // print(fromIso8601Style(quran.get("history")[0][0][1]));
-      // print(HijriCalendar.fromDate(
-      //         DateTime.parse((quran.get("history")[0][0][0])))
-      //     .longMonthName);
-      // print(fromIso8601Style(quran.get("history")[0][0][1]).longMonthName);
-      print(quranHistory);
-      print(quranHistory.map((entry) {
-        final date = DateTime.parse(entry[0][0].toString());
-        final hijriDate = fromIso8601Style(entry[0][1]);
-        final altHijriDate = jHijriFromIso8601Style(entry[0][1]);
-
-        print(altHijriDate.hijri.monthName);
-
-        return [
-          [date, hijriDate.toIso8601Style(), "${altHijriDate.year}-${altHijriDate.month}-${altHijriDate.day}"]
-        ];
-      }).toList());
     }
   }
 
@@ -231,7 +222,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         PageHeader(
                           header: appName,
                           title:
-                              "${hijriCurrent.hDay} ${hijriCurrent.longMonthName} ${hijriCurrent.hYear}",
+                              "${hijriCurrent.day} ${hijriCurrent.hijriMonth()} ${hijriCurrent.year}",
                           rightAlign: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisSize: MainAxisSize.min,

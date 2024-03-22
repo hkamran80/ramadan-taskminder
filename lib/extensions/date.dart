@@ -1,12 +1,17 @@
-import 'package:hijri/hijri_calendar.dart';
 import 'package:jhijri/jHijri.dart';
 
 extension Date on DateTime {
   String getYMD() => toIso8601String().split("T")[0];
-}
 
-extension Hijri on HijriCalendar {
-  String toIso8601Style() => "$hYear-$hMonth-$hDay";
+  DateTime offset(int offset) {
+    if (offset == 1) {
+      return add(const Duration(days: 1));
+    } else if (offset == -1) {
+      return subtract(const Duration(days: 1));
+    }
+
+    return this;
+  }
 }
 
 extension JHijriDateTime on JHijri {

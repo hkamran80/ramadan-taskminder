@@ -32,7 +32,6 @@ dependencies:
     flutter:
         sdk: flutter
 
-    hijri: ^3.0.0
     hive: ^2.2.3
     hive_flutter: ^1.1.0
     lucide_icons_flutter: ^1.0.3
