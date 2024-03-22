@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hijri/hijri_calendar.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:jhijri/jHijri.dart';
 import 'package:ramadan_taskminder/date.dart';
 import 'package:ramadan_taskminder/extensions/date.dart';
 import 'package:ramadan_taskminder/theme.dart';
@@ -264,9 +265,19 @@ class _QuranScreenState extends State<QuranScreen> {
                                         onTap: () => setState(
                                           () {
                                             final entry = [
-                                              DateTime.now()
-                                                  .toIso8601String()
-                                                  .split("T")[0],
+                                              [
+                                                DateTime.now()
+                                                    .toIso8601String()
+                                                    .split("T")[0],
+                                                JHijri(
+                                                  fDate:
+                                                      DateTime.now().subtract(
+                                                    const Duration(days: 1),
+                                                  ),
+                                                  fDisplay:
+                                                      DisplayFormat.YYYYMMDD,
+                                                ).fullDate,
+                                              ],
                                               [
                                                 "${startingSurah + 1}-$startingAyah",
                                                 "${endingSurah + 1}-$endingAyah"
@@ -305,8 +316,9 @@ class _QuranScreenState extends State<QuranScreen> {
                                     runSpacing: 10,
                                     children: history.reversed.map(
                                       (entry) {
-                                        final date =
-                                            DateTime.parse(entry[0][0].toString());
+                                        final date = DateTime.parse(
+                                          entry[0][0].toString(),
+                                        );
                                         final hijriDate =
                                             jHijriFromIso8601Style(entry[0][1]);
 
