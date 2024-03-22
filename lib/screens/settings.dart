@@ -24,7 +24,10 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   Box tasksBox = Hive.box("tasks");
+  Box settingsBox = Hive.box("settings");
+
   late List<String> allTasks;
+  late int dateOffset;
 
   String version = "";
   String buildNumber = "";
@@ -33,12 +36,108 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void initState() {
     super.initState();
     initializeTasks();
+    calculateOffset();
     loadPackageInfo();
   }
 
   void initializeTasks() {
     allTasks =
         tasksBox.get("allTasks", defaultValue: initialTasks) as List<String>;
+  }
+
+  void calculateOffset() {
+    setState(() => dateOffset = settingsBox.get("dateOffset", defaultValue: 0));
+  }
+
+  void editDateOffset() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Edit Hijri Date Offset"),
+          content: StatefulBuilder(
+            builder: (
+              BuildContext context,
+              StateSetter setState,
+            ) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  RadioListTile<int>(
+                    title: const Text("-1 day"),
+                    value: -1,
+                    groupValue: dateOffset,
+                    visualDensity: const VisualDensity(
+                      horizontal: VisualDensity.minimumDensity,
+                      vertical: VisualDensity.minimumDensity,
+                    ),
+                    contentPadding: const EdgeInsets.all(0.0),
+                    onChanged: (value) {
+                      setState(() {
+                        if (value != null) {
+                          settingsBox.put("dateOffset", value);
+                          calculateOffset();
+                        }
+                      });
+                    },
+                  ),
+                  RadioListTile<int>(
+                    title: const Text("0 days"),
+                    value: 0,
+                    groupValue: dateOffset,
+                    visualDensity: const VisualDensity(
+                      horizontal: VisualDensity.minimumDensity,
+                      vertical: VisualDensity.minimumDensity,
+                    ),
+                    contentPadding: const EdgeInsets.all(0.0),
+                    onChanged: (value) {
+                      setState(() {
+                        if (value != null) {
+                          settingsBox.put("dateOffset", value);
+                          calculateOffset();
+                        }
+                      });
+                    },
+                  ),
+                  RadioListTile<int>(
+                    title: const Text("1 day"),
+                    value: 1,
+                    groupValue: dateOffset,
+                    visualDensity: const VisualDensity(
+                      horizontal: VisualDensity.minimumDensity,
+                      vertical: VisualDensity.minimumDensity,
+                    ),
+                    contentPadding: const EdgeInsets.all(0.0),
+                    onChanged: (value) {
+                      setState(() {
+                        if (value != null) {
+                          settingsBox.put("dateOffset", value);
+                          calculateOffset();
+                        }
+                      });
+                    },
+                  ),
+                ],
+              );
+            },
+          ),
+          actions: [
+            TextButton(
+              child: Text(
+                "Set",
+                style: TextStyle(
+                  color: isDark(context) ? primaryLightColor : primaryDarkColor,
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void loadPackageInfo() async {
@@ -108,6 +207,25 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                     ),
                                   )
                                   .toList(),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SectionHeader(
+                              title: "Hijri Date Offset",
+                              buttonText: "Edit",
+                              onClick: () => editDateOffset(),
+                            ),
+                            const SizedBox(height: 5),
+                            Statistic(
+                              statistic:
+                                  "$dateOffset day${dateOffset == 0 ? "s" : ""}",
                             ),
                           ],
                         ),

@@ -17,6 +17,7 @@ Future<void> main() async {
   await Hive.openBox("tasks");
   await Hive.openBox("quran");
   await Hive.openBox("prayers");
+  await Hive.openBox("settings");
 
   runApp(const RamadanTaskminder());
 }
@@ -66,9 +67,9 @@ class RamadanTaskminder extends StatelessWidget {
     return MaterialApp.router(
       title: appName,
       theme: ThemeData(
+        useMaterial3: true,
         primaryColor: getPrimaryColor(context),
         scaffoldBackgroundColor: backgroundColor,
-        useMaterial3: true,
         textTheme: GoogleFonts.mPlus1pTextTheme(),
       ),
       darkTheme: ThemeData(
@@ -76,9 +77,11 @@ class RamadanTaskminder extends StatelessWidget {
         brightness: Brightness.dark,
         scaffoldBackgroundColor: Colors.black,
         colorScheme: const ColorScheme.dark(
-          primary: Colors.black,
-          onPrimary: Colors.black,
-          secondary: primaryDarkColor,
+          primary: primaryDarkColor,
+          onPrimary: Colors.white,
+          surface: Colors.black,
+          onSurface: Colors.white,
+          secondary: primaryLightColor,
         ),
         cardTheme: const CardTheme(
           color: Colors.black87,
@@ -96,6 +99,11 @@ class RamadanTaskminder extends StatelessWidget {
               color: Colors.white70,
               fontSize: 18.0,
             ),
+          ),
+        ),
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(
+            foregroundColor: buttonTextDarkColor,
           ),
         ),
         textSelectionTheme: const TextSelectionThemeData(

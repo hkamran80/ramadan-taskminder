@@ -1,5 +1,8 @@
 const appName = "Ramadan Taskminder";
 
+/// The current index of migrations to be compared to `SharedPreferences.migrationIndex`.
+const int currentMigrationIndex = 0;
+
 final List<String> boxes = ["quran", "tasks", "prayers"];
 
 Uri feedbackUrl = Uri.parse(

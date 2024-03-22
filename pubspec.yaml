@@ -32,7 +32,6 @@ dependencies:
     flutter:
         sdk: flutter
 
-    hijri: ^3.0.0
     hive: ^2.2.3
     hive_flutter: ^1.1.0
     lucide_icons_flutter: ^1.0.3
@@ -42,6 +41,7 @@ dependencies:
     package_info_plus: ^5.0.1
     google_fonts: ^6.1.0
     go_router: ^13.1.0
+    jhijri: ^1.0.0
     path_provider: ^2.1.2
     flutter_file_dialog: ^3.0.2
     archive: ^3.4.10
