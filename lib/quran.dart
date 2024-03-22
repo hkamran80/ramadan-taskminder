@@ -263,18 +263,18 @@ int calculateEntryAyahs(List<String> entry) {
   final start = entry[0].split("-").map(int.parse).toList();
   final end = entry[1].split("-").map(int.parse).toList();
 
-  final startSurah = start[0],
+  final startSurah = start[0] - 1,
       startAyah = start[1],
-      endSurah = end[0],
+      endSurah = end[0] - 1,
       endAyah = end[1];
 
   if (startSurah == endSurah) {
     return endAyah - startAyah;
   }
 
-  if (startSurah < endSurah) {
-    int ayahs = 0;
+  int ayahs = 0;
 
+  if (startSurah < endSurah) {
     final surahIndexes = startSurah.upTo(endSurah);
     for (var index = 0; index < surahIndexes.length; index++) {
       if (index == 0) {
@@ -286,6 +286,24 @@ int calculateEntryAyahs(List<String> entry) {
       } else {
         // Other surahs
         ayahs += int.parse(surahs[surahIndexes[index]]["ayahs"].toString());
+      }
+    }
+
+    return ayahs;
+  }
+
+  if (startSurah > endSurah) {
+    final surahIndexes = endSurah.upTo(startSurah);
+    for (var index = 0; index < surahIndexes.length; index++) {
+      if (index == 0) {
+        // Last surah (remember, reversed array)
+        ayahs += endAyah;
+      } else if (index == surahIndexes.length - 1) {
+        // First surah (remember, reversed array)
+        ayahs += int.parse(surahs[startSurah]["ayahs"].toString()) - startAyah;
+      } else {
+        // Other surahs
+        ayahs += int.parse(surahs[surahIndexes[index] - 1]["ayahs"].toString());
       }
     }
 

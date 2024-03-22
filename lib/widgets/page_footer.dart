@@ -26,9 +26,12 @@ class PageFooter extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.only(top: 20),
           child: Container(
-            color: isDark(context)
-                ? const Color.fromRGBO(0, 0, 0, 0.5)
-                : const Color.fromRGBO(255, 255, 255, 0.5),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              color: isDark(context)
+                  ? const Color.fromRGBO(0, 0, 0, 0.8)
+                  : const Color.fromRGBO(255, 255, 255, 0.8),
+            ),
             child: Padding(
               padding: const EdgeInsets.fromLTRB(35, 5, 35, 25),
               child: Row(
