@@ -304,11 +304,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         const SizedBox(
                           height: 50,
                         ),
-                        // WideCard(
-                        //   content: "Eid Takbeers",
-                        //   onTap: () => GoRouter.of(context).push("/eid-takbeer"),
-                        // ),
-                        // const SizedBox(height: 15),
+                        WideCard(
+                          content: "Eid Takbeers",
+                          onTap: () => GoRouter.of(context).push("/eid-takbeer"),
+                        ),
+                        const SizedBox(height: 15),
                         WideCard(
                           content: "Submit feedback",
                           onTap: () => _launchUrl(),
