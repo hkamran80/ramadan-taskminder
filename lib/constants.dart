@@ -8,7 +8,7 @@ Uri feedbackUrl = Uri.parse(
 
 Uri repositoryUrl =
     Uri.parse("https://github.com/hkamran80/ramadan-taskminder");
-Uri hkamranUrl = Uri.parse("https://hkamran.com");
-Uri eidTakbeerVideo = Uri.parse("https://www.youtube.com/watch?v=b_VjixnU6fQ");
+Uri hkamranUrl = Uri.parse("https://hkamran.com/?ref=rtm");
+Uri eidTakbeerVideo = Uri.parse("https://www.youtube.com/watch?v=C_3Tnzq_nJ0");
 Uri eidTakbeerPdf =
     Uri.parse("https://islamicbulletin.org/en/ebooks/prayer/eid_takbeer.pdf");
