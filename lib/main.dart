@@ -80,7 +80,7 @@ class RamadanTaskminder extends StatelessWidget {
           onPrimary: Colors.black,
           secondary: primaryDarkColor,
         ),
-        cardTheme: const CardTheme(
+        cardTheme: const CardThemeData(
           color: Colors.black87,
         ),
         iconTheme: const IconThemeData(

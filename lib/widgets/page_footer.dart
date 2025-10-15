@@ -13,7 +13,7 @@ class PageFooter extends StatelessWidget {
   Widget build(BuildContext context) {
     final currentLocation = GoRouterState.of(context).uri.toString();
     final tabBar = [
-      ["/", LucideIcons.home],
+      ["/", LucideIcons.house],
       ["/tasks", LucideIcons.clipboardList],
       ["/quran", LucideIcons.bookOpen],
       ["/prayers", LucideIcons.alignVerticalJustifyEnd],
